@@ -1,0 +1,7 @@
+{
+  "name": "purescript-proact",
+  "dependencies": {
+    "camelcase": "^6.0.0",
+    "react": "^16.13.1"
+  }
+}

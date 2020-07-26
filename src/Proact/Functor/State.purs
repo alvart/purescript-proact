@@ -6,12 +6,14 @@
 module Proact.Functor.State
 where
 
+import Data.Either (Either(..))
 import Data.Lens.Setter (Setter, Setter', over, set)
 import Data.Lens.Getter (Getter, view)
 import Data.Maybe (Maybe(..))
-import Data.Tuple (Tuple(..))
+import Data.Tuple (Tuple(..), fst, snd, uncurry)
 import Prelude
-import Run (FProxy, Run, SProxy(..), lift)
+import Run (FProxy, Run, SProxy(..), lift, on, peel, send)
+import Unsafe.Coerce (unsafeCoerce)
 
 infix 4 assign as .=
 infix 4 modifying as %=
@@ -106,6 +108,30 @@ mulModifying
   :: forall r s a
    . Semiring a => Setter' s a -> a -> Run (state :: STATE s | r) Unit
 mulModifying p = modifying p <<< flip mul
+
+-- | Runs a stateful program and returns the result discarding the final state.
+evalState :: forall r s a . s -> Run (state :: STATE s | r) a -> Run r a
+evalState s = map snd <<< runState s
+
+-- | Runs a stateful program and returns the final state discarding the result.
+execState :: forall r s a . s -> Run (state :: STATE s | r) a -> Run r s
+execState s = map fst <<< runState s
+
+-- | Runs a stateful program and returns the result and the final state.
+runState
+  :: forall r s a . s -> Run (state :: STATE s | r) a -> Run r (Tuple s a)
+runState s r =
+  case peel r
+  of
+    Left r' ->
+      case on _state Left Right $ unsafeCoerce r'
+      of
+        Left f -> handleState f
+        Right r'' -> send r'' >>= runState s
+    Right a -> pure (Tuple s a)
+  where
+  handleState (Get next) = runState s $ next s
+  handleState (Modify next) = uncurry runState $ next s
 
 -- | Subtracts to the foci of a `Setter`.
 subModifying

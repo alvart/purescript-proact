@@ -22,6 +22,7 @@ module Proact
   , focus'
   , iFocus
   , proact
+  , translate
   )
 where
 
@@ -62,6 +63,7 @@ import Run
   , send
   )
 import Run.Reader (READER, Reader(..), _reader, runReader)
+import Undefined (undefined)
 import Unsafe.Coerce (unsafeCoerce)
 
 -- | A type synonym for a Proact Component.
@@ -191,7 +193,7 @@ focus' _lens component =
         # focusProact _get _set
         # focusState _get _set
         # runReader s
-        # map (maybe (unsafeCoerce 0) identity <<< head)
+        # map (maybe undefined identity <<< head)
         # unsafeCoerce
 
 -- | Changes a `Component`'s state type through the lens of an indexed
@@ -239,6 +241,33 @@ proact this component =
     where
     handleProact :: ProactF { | s } (effect :: EFFECT) ~> Run r
     handleProact (Dispatcher next) = pure $ next (dispatch this)
+
+-- | Translates the extensible effects of a Proact component.
+translate
+  :: forall s e1 e2
+   . (Run e1 ~> Run e2) -> (Component s e1 ~> Component s e2)
+translate translator component =
+  component
+    # unsafeCoerce
+    # translateProact
+    # unsafeCoerce
+    # translator
+    # unsafeCoerce
+  where
+  translateProact r =
+    case peel r
+    of
+      Left r' ->
+        case on _proact Left Right r'
+        of
+          Left f -> handleProact f
+          Right r'' -> send r'' >>= translateProact
+      Right a -> pure a
+    where
+    handleProact (Dispatcher next) =
+      join <<< lift _proact <<< Dispatcher $ \d2 ->
+        translateProact
+          $ next (d2 <<< unsafeCoerce <<< translator <<< unsafeCoerce)
 
 -- Changes the type of the event dispatcher through getter and setter functions.
 focusProact

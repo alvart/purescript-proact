@@ -1,12 +1,13 @@
 { name = "purescript-proact"
 , dependencies =
-  [ "effect"
-  , "mmorph"
-  , "pairing"
+  [ "css"
+  , "effect"
+  , "options"
   , "profunctor-lenses"
   , "react"
   , "react-dom"
   , "run"
+  , "undefined"
   ]
 , packages = ./packages.dhall
 , sources = [ "src/**/*.purs" ]
