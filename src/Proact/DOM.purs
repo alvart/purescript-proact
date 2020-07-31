@@ -239,17 +239,17 @@ import Data.Options (Options, options)
 import Data.Traversable (sequence)
 import Effect (Effect)
 import Foreign (Foreign)
-import Prelude (map) as P
 import Prelude (($), (>>=), (<<<), Unit, bind, mempty, pure)
 import Proact (EventHandler, PComponent, dispatcher) as P
 import Proact.DOM.Props (Properties)
-import React (ReactElement)
+import React (ReactClass, ReactElement)
 import React.DOM (text) as R
+import Unsafe.Coerce (unsafeCoerce)
 
 createElement
-  :: forall s t e
-   . String
-  -> Array (Options Properties)
+  :: forall s t o p e
+   . ReactClass p
+  -> Array (Options o)
   -> Array ReactElement
   -> P.PComponent s t e ReactElement
 createElement class_ props children =
@@ -260,7 +260,7 @@ createElement class_ props children =
 fragment
   :: forall s t e
    . P.PComponent s t e (Array ReactElement) -> P.PComponent s t e ReactElement
-fragment children = P.map _createFragment children
+fragment children = children >>= createElement _fragment mempty
 
 text :: forall s t e . String -> P.PComponent s t e ReactElement
 text = pure <<< R.text
@@ -1546,14 +1546,14 @@ wbr' :: forall s t e . P.PComponent s t e ReactElement
 wbr' = wbr mempty
 
 foreign import _createElement
-  :: forall s e
-   .  String
+  :: forall p s e
+   . ReactClass p
   -> (P.EventHandler s e Unit -> Effect Unit)
   -> Foreign
   -> Array ReactElement
   -> ReactElement
 
-foreign import _createFragment :: Array ReactElement -> ReactElement
+foreign import _fragment :: forall p . ReactClass p
 
 createElement'
   :: forall s t e
@@ -1562,4 +1562,7 @@ createElement'
   -> Array (P.PComponent s t e ReactElement)
   -> P.PComponent s t e ReactElement
 createElement' class_ props children =
-  sequence children >>= createElement class_ props
+  sequence children >>= createElement (tag class_) props
+
+tag :: forall p . String -> ReactClass p
+tag = unsafeCoerce

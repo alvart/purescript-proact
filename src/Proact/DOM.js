@@ -39,9 +39,4 @@ exports._createElement = function (class_) {
   };
 };
 
-exports._createFragment = function (children) {
-  return React.createElement.apply(
-    React,
-    [React.Fragment, {}].concat(children)
-  );
-};
+exports._fragment = React.Fragment;
