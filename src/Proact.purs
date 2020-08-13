@@ -44,10 +44,9 @@ import Data.Lens.Index (class Index, ix)
 import Data.Lens.Indexed (positions)
 import Data.Maybe (Maybe(..), maybe)
 import Data.Newtype (class Newtype, unwrap)
-import Data.Tuple (Tuple(..), fst, snd)
+import Data.Tuple (Tuple, fst, snd)
 import Effect (Effect)
 import Prelude
-import Proact.Functor.State (STATE, StateF(..), _state)
 import React (ReactElement, ReactThis, getState, writeState)
 import Run
   ( EFFECT
@@ -63,6 +62,7 @@ import Run
   , send
   )
 import Run.Reader (READER, Reader(..), _reader, runReader)
+import Run.State (STATE, State(..), _state)
 import Undefined (undefined)
 import Unsafe.Coerce (unsafeCoerce)
 
@@ -130,18 +130,12 @@ dispatch this event = event # runEvent # runBaseEffect
     :: Run (state :: STATE { | s }, effect :: EFFECT) ~> Run (effect :: EFFECT)
   runEvent = interpret (on _state handleEvent send)
     where
-    handleEvent :: StateF { | s } ~> Run (effect :: EFFECT)
-    handleEvent (Get next) =
+    handleEvent :: State { | s } ~> Run (effect :: EFFECT)
+    handleEvent (State f next) =
       do
-      s <- liftEffect $ getState this
-      let a = next s
-      pure a
-    handleEvent (Modify next) =
-      do
-      s <- liftEffect $ getState this
-      let Tuple s' a = next s
-      liftEffect $ writeState this s'
-      pure a
+      s <- map f $ liftEffect $ getState this
+      liftEffect $ writeState this s
+      pure $ next s
 
 -- | Provides an action dispatcher in the context of a Proact `Component`.
 dispatcher
@@ -309,18 +303,13 @@ focusState _get _set r =
         Right r'' -> send r'' >>= focusState _get _set
     Right a -> pure a
   where
-  handleState (Get next) =
-    join <<< lift _state <<< Get $ \s1 ->
-      maybe (pure mempty) identity $
-        do
-        r' <- map next $ _get s1
-        pure $ focusState _get _set r'
-  handleState (Modify next) =
-    join <<< lift _state <<< Modify $ \s1 ->
-      maybe (Tuple s1 $ pure mempty) identity $
-        do
-        Tuple s2 r' <- map next $ _get s1
-        pure <<< Tuple (_set s2 s1) $ focusState _get _set r'
+  handleState (State f2 next) =
+    join <<< lift _state <<< State f1 $ \s1 ->
+      maybe (pure mempty) identity
+        $ map (focusState _get _set <<< next <<< f2)
+        $ _get s1
+    where
+    f1 s1 = maybe s1 identity $ map (flip _set s1 <<< f2) $ _get s1
 
 -- Changes the type of the context in a Reader effect.
 withReader
