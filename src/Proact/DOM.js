@@ -20,8 +20,8 @@ exports._createElement = function (class_) {
           }
         } else if (key.startsWith("on")) {
           props[key] = (function (key_) {
-            return function (event) {
-              disp(props_[key_](event))();
+            return function () {
+              disp(props_[key_].apply(props_[key_], arguments))();
             };
           })(key);
         } else {
