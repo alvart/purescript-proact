@@ -13,7 +13,6 @@ module Proact
   , IndexedComponent
   , PComponent
   , PROACT
-  , ProactElement
   , ProactF(..)
   , _proact
   , dispatch
@@ -47,7 +46,7 @@ import Data.Newtype (class Newtype, unwrap)
 import Data.Tuple (Tuple, fst, snd)
 import Effect (Effect)
 import Prelude
-import React (ReactElement, ReactThis, getState, writeState)
+import React (ReactThis, getState, writeState)
 import Run
   ( EFFECT
   , FProxy
@@ -67,27 +66,25 @@ import Undefined (undefined)
 import Unsafe.Coerce (unsafeCoerce)
 
 -- | A type synonym for a Proact Component.
-type Component s e =
-  Run (reader :: READER s, proact :: PROACT s e, state :: STATE s | e)
+type Component s e1 e2 =
+  Run (reader :: READER s, proact :: PROACT s e2, state :: STATE s | e1)
 
 -- | A type synonym for Free programs that manipulate their component state
 -- | through the `State` effect.
 type EventHandler s e = Run (state :: STATE s | e)
 
 -- | A type synonym for an Indexed Proact Component.
-type IndexedComponent i s e =
-  Run (reader :: READER (Tuple i s), proact :: PROACT s e, state :: STATE s | e)
+type IndexedComponent i s e1 e2 =
+  Run
+    (reader :: READER (Tuple i s), proact :: PROACT s e2, state :: STATE s | e1)
 
 -- A type synonym for Free programs with global access to its component state
 -- and to an event dispatcher.
-type PComponent s t e =
-  Run (reader :: READER s, proact :: PROACT t e, state :: STATE t | e)
+type PComponent s t e1 e2 =
+  Run (reader :: READER s, proact :: PROACT t e2, state :: STATE t | e1)
 
 -- | A type synonym for the effects of the Proact component.
 type PROACT s e = FProxy (ProactF s e)
-
--- | A type synonym for a React Element in the context of a Proact Component.
-type ProactElement s t e = PComponent s t e ReactElement
 
 -- | Represents the Functor container for the external interactions of a Proact
 -- | component.
@@ -139,15 +136,16 @@ dispatch this event = event # runEvent # runBaseEffect
 
 -- | Provides an action dispatcher in the context of a Proact `Component`.
 dispatcher
-  :: forall s t e . PComponent s t e (EventHandler t e Unit -> Effect Unit)
+  :: forall s t e1 e2
+   . PComponent s t e1 e2 (EventHandler t e2 Unit -> Effect Unit)
 dispatcher = lift _proact $ Dispatcher identity
 
 -- | Changes a `Component`'s state type through the lens of a `Traversal`.
 -- | For a less restrictive albeit less general version, consider `focus'`.
 focus
-  :: forall s1 s2 e a
+  :: forall s1 s2 e1 e2 a
    . Monoid a
-  => Traversal' s1 s2 -> Component s2 e a -> Component s1 e a
+  => Traversal' s1 s2 -> Component s2 e1 e2 a -> Component s1 e1 e2 a
 focus _traversal component =
   join
     <<< lift _reader
@@ -171,7 +169,9 @@ focus _traversal component =
 
 -- | Changes a `Component`'s state type through the focus of a `Lens`.
 -- | For a more general albeit more restrictive version, consider `focus`.
-focus' :: forall s1 s2 e . Lens' s1 s2 -> (Component s2 e ~> Component s1 e)
+focus'
+  :: forall s1 s2 e1 e2
+   . Lens' s1 s2 -> (Component s2 e1 e2 ~> Component s1 e1 e2)
 focus' _lens component =
   join
     <<< lift _reader
@@ -193,10 +193,12 @@ focus' _lens component =
 -- | Changes a `Component`'s state type through the lens of an indexed
 -- | traversal.
 iFocus
-  :: forall s1 s2 i e a
+  :: forall s1 s2 i e1 e2 a
    . Monoid a
   => Index s1 i s2
-  => IndexedTraversal' i s1 s2 -> IndexedComponent i s2 e a -> Component s1 e a
+  => IndexedTraversal' i s1 s2
+  -> IndexedComponent i s2 e1 e2 a
+  -> Component s1 e1 e2 a
 iFocus _iTraversal component =
   join
     <<< lift _reader
@@ -220,7 +222,8 @@ iFocus _iTraversal component =
 -- | Extracts the value inside a Proact component.
 proact
   :: forall s
-   . ReactThis { } { | s } -> (Component { | s } (effect :: EFFECT) ~> Effect)
+   . ReactThis { } { | s }
+  -> (Component { | s } (effect :: EFFECT) (effect :: EFFECT) ~> Effect)
 proact this component =
   do
   s <- getState this
@@ -236,16 +239,14 @@ proact this component =
     handleProact :: ProactF { | s } (effect :: EFFECT) ~> Run r
     handleProact (Dispatcher next) = pure $ next (dispatch this)
 
--- | Translates the extensible effects of a Proact component.
+-- | Translates the extensible effects of the Proact dispatcher.
 translate
-  :: forall s e1 e2
-   . (Run e1 ~> Run e2) -> (Component s e1 ~> Component s e2)
+  :: forall s t e e1 e2
+   . (Run e1 ~> Run e2) -> (PComponent s t e e1 ~> PComponent s t e e2)
 translate translator component =
   component
     # unsafeCoerce
     # translateProact
-    # unsafeCoerce
-    # translator
     # unsafeCoerce
   where
   translateProact r =
