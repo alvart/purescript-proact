@@ -12,9 +12,9 @@ module Proact
   , EventHandler
   , IndexedComponent
   , PComponent
-  , PROACT
-  , ProactF(..)
-  , _proact
+  , DISPATCHER
+  , DispatcherF(..)
+  , _dispatcher
   , dispatch
   , dispatcher
   , focus
@@ -45,18 +45,20 @@ import Data.Maybe (Maybe(..), maybe)
 import Data.Newtype (class Newtype, unwrap)
 import Data.Tuple (Tuple, fst, snd)
 import Effect (Effect)
+import Effect.Aff (launchAff_)
 import Prelude
 import React (ReactThis, getState, writeState)
 import Run
-  ( EFFECT
+  ( AFF
+  , EFFECT
   , FProxy
   , Run
   , SProxy(..)
   , interpret
   , lift
-  , liftEffect
   , on
   , peel
+  , runBaseAff'
   , runBaseEffect
   , send
   )
@@ -67,7 +69,7 @@ import Unsafe.Coerce (unsafeCoerce)
 
 -- | A type synonym for a Proact Component.
 type Component s e1 e2 =
-  Run (reader :: READER s, proact :: PROACT s e2, state :: STATE s | e1)
+  Run (reader :: READER s, dispatcher :: DISPATCHER s e2, state :: STATE s | e1)
 
 -- | A type synonym for Free programs that manipulate their component state
 -- | through the `State` effect.
@@ -76,19 +78,23 @@ type EventHandler s e = Run (state :: STATE s | e)
 -- | A type synonym for an Indexed Proact Component.
 type IndexedComponent i s e1 e2 =
   Run
-    (reader :: READER (Tuple i s), proact :: PROACT s e2, state :: STATE s | e1)
+    ( reader :: READER (Tuple i s)
+    , dispatcher :: DISPATCHER s e2
+    , state :: STATE s
+    | e1
+    )
 
 -- A type synonym for Free programs with global access to its component state
 -- and to an event dispatcher.
 type PComponent s t e1 e2 =
-  Run (reader :: READER s, proact :: PROACT t e2, state :: STATE t | e1)
+  Run (reader :: READER s, dispatcher :: DISPATCHER t e2, state :: STATE t | e1)
 
--- | A type synonym for the effects of the Proact component.
-type PROACT s e = FProxy (ProactF s e)
+-- | A type synonym for the effects that require an Event Dispatcher.
+type DISPATCHER s e = FProxy (DispatcherF s e)
 
--- | Represents the Functor container for the external interactions of a Proact
--- | component.
-data ProactF s e a = Dispatcher ((EventHandler s e Unit -> Effect Unit) -> a)
+-- | Represents the Functor container for external interactions requiring an
+-- | Event Dispatcher.
+data DispatcherF s e a = Dispatcher ((EventHandler s e Unit -> Effect Unit) -> a)
 
 -- | Represents applicatives as monoids and semigroups.
 newtype Ap m a = Ap (m a)
@@ -108,37 +114,26 @@ instance monoidFreeT :: (Apply m, Applicative m, Monoid a) => Monoid (Ap m a)
   where
   mempty = pure mempty
 
--- ProactF :: Functor
+-- DispatcherF :: Functor
 
-derive instance functorProactF :: Functor (ProactF s e)
+derive instance functorDispatcherF :: Functor (DispatcherF s e)
 
--- | Gets the proxy symbol of the App component.
-_proact :: SProxy "proact"
-_proact = SProxy
+-- | Gets the proxy symbol of the Dispatcher effect.
+_dispatcher :: SProxy "dispatcher"
+_dispatcher = SProxy
 
 -- | Runs the actions of an Event Handler.
 dispatch
   :: forall s
    . ReactThis { } { | s }
-  -> (EventHandler { | s } (effect :: EFFECT) ~> Effect)
-dispatch this event = event # runEvent # runBaseEffect
-  where
-  runEvent
-    :: Run (state :: STATE { | s }, effect :: EFFECT) ~> Run (effect :: EFFECT)
-  runEvent = interpret (on _state handleEvent send)
-    where
-    handleEvent :: State { | s } ~> Run (effect :: EFFECT)
-    handleEvent (State f next) =
-      do
-      s <- map f $ liftEffect $ getState this
-      liftEffect $ writeState this s
-      pure $ next s
+  -> EventHandler { | s } (aff :: AFF, effect :: EFFECT) Unit -> Effect Unit
+dispatch this eventHandler = eventHandler # eval this # runBaseAff' # launchAff_
 
 -- | Provides an action dispatcher in the context of a Proact `Component`.
 dispatcher
   :: forall s t e1 e2
    . PComponent s t e1 e2 (EventHandler t e2 Unit -> Effect Unit)
-dispatcher = lift _proact $ Dispatcher identity
+dispatcher = lift _dispatcher $ Dispatcher identity
 
 -- | Changes a `Component`'s state type through the lens of a `Traversal`.
 -- | For a less restrictive albeit less general version, consider `focus'`.
@@ -223,21 +218,25 @@ iFocus _iTraversal component =
 proact
   :: forall s
    . ReactThis { } { | s }
-  -> (Component { | s } (effect :: EFFECT) (effect :: EFFECT) ~> Effect)
+  -> Component { | s } (effect :: EFFECT) (aff :: AFF, effect :: EFFECT)
+  ~> Effect
 proact this component =
   do
   s <- getState this
   component
     # runReader s
-    # runProact
-    # dispatch this
+    # runDispatcher
+    # eval this
+    # runBaseEffect
   where
-  runProact
-    :: forall r . Run (proact :: PROACT { | s } (effect :: EFFECT) | r) ~> Run r
-  runProact = interpret (on _proact handleProact send)
+  runDispatcher
+    :: forall r
+     . Run (dispatcher :: DISPATCHER { | s } (aff :: AFF, effect :: EFFECT) | r)
+    ~> Run r
+  runDispatcher = interpret (on _dispatcher handleDispatcher send)
     where
-    handleProact :: ProactF { | s } (effect :: EFFECT) ~> Run r
-    handleProact (Dispatcher next) = pure $ next (dispatch this)
+    handleDispatcher :: DispatcherF { | s } (aff :: AFF, effect :: EFFECT) ~> Run r
+    handleDispatcher (Dispatcher next) = pure $ next (dispatch this)
 
 -- | Translates the extensible effects of the Proact dispatcher.
 translate
@@ -253,14 +252,14 @@ translate translator component =
     case peel r
     of
       Left r' ->
-        case on _proact Left Right r'
+        case on _dispatcher Left Right r'
         of
-          Left f -> handleProact f
+          Left f -> handleDispatcher f
           Right r'' -> send r'' >>= translateProact
       Right a -> pure a
     where
-    handleProact (Dispatcher next) =
-      join <<< lift _proact <<< Dispatcher $ \d2 ->
+    handleDispatcher (Dispatcher next) =
+      join <<< lift _dispatcher <<< Dispatcher $ \d2 ->
         translateProact
           $ next (d2 <<< unsafeCoerce <<< translator <<< unsafeCoerce)
 
@@ -270,21 +269,25 @@ focusProact
    . Monoid a
   => (s1 -> Maybe s2)
   -> (s2 -> s1 -> s1)
-  -> Run (proact :: PROACT s2 e | r) a
-  -> Run (proact :: PROACT s1 e | r) a
+  -> Run (dispatcher :: DISPATCHER s2 e | r) a
+  -> Run (dispatcher :: DISPATCHER s1 e | r) a
 focusProact _get _set r =
   case peel r
   of
     Left r' ->
-      case on _proact Left Right $ unsafeCoerce r'
+      case on _dispatcher Left Right $ unsafeCoerce r'
       of
-        Left f -> handleProact f
+        Left f -> handleDispatcher f
         Right r'' -> send r'' >>= focusProact _get _set
     Right a -> pure a
   where
-  handleProact (Dispatcher next) =
-    join <<< lift _proact <<< Dispatcher $ \d1 ->
+  handleDispatcher (Dispatcher next) =
+    join <<< lift _dispatcher <<< Dispatcher $ \d1 ->
       focusProact _get _set $ next (d1 <<< focusState _get _set)
+
+-- Gets the proxy symbol of the IO effect.
+_effect :: SProxy "effect"
+_effect = SProxy
 
 -- Changes the type of the state through getter and setter functions.
 focusState
@@ -311,6 +314,29 @@ focusState _get _set r =
         $ _get s1
     where
     f1 s1 = maybe s1 identity $ map (flip _set s1 <<< f2) $ _get s1
+
+-- Evaluates the state of a program in the context of a React component.
+eval
+  :: forall r s
+   . ReactThis { } { | s }
+  -> Run (effect :: EFFECT, state :: STATE { | s } | r)
+  ~> Run (effect :: EFFECT | r)
+eval this r =
+  case peel r
+  of
+    Left r' ->
+      case on _state Left Right $ unsafeCoerce r'
+      of
+        Left f -> handleState f
+        Right r'' -> send r'' >>= eval this
+    Right a -> pure a
+  where
+  handleState (State f next) =
+    join <<< lift _effect $
+      do
+      s <- map f $ getState this
+      writeState this s
+      pure $ eval this $ next s
 
 -- Changes the type of the context in a Reader effect.
 withReader
