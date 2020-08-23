@@ -16,7 +16,9 @@ module Proact
   , DispatcherF(..)
   , _dispatcher
   , dispatch
+  , dispatch_
   , dispatcher
+  , dispatcher_
   , focus
   , focus'
   , iFocus
@@ -45,7 +47,7 @@ import Data.Maybe (Maybe(..), maybe)
 import Data.Newtype (class Newtype, unwrap)
 import Data.Tuple (Tuple, fst, snd)
 import Effect (Effect)
-import Effect.Aff (launchAff_)
+import Effect.Aff (Fiber, launchAff)
 import Prelude
 import React (ReactThis, getState, writeState)
 import Run
@@ -94,7 +96,8 @@ type DISPATCHER s e = FProxy (DispatcherF s e)
 
 -- | Represents the Functor container for external interactions requiring an
 -- | Event Dispatcher.
-data DispatcherF s e a = Dispatcher ((EventHandler s e Unit -> Effect Unit) -> a)
+data DispatcherF s e a =
+  Dispatcher ((EventHandler s e Unit -> Effect (Fiber Unit)) -> a)
 
 -- | Represents applicatives as monoids and semigroups.
 newtype Ap m a = Ap (m a)
@@ -122,18 +125,34 @@ derive instance functorDispatcherF :: Functor (DispatcherF s e)
 _dispatcher :: SProxy "dispatcher"
 _dispatcher = SProxy
 
--- | Runs the actions of an Event Handler.
+-- | Runs the actions of an Event Handler and returns the fiber.
 dispatch
   :: forall s
    . ReactThis { } { | s }
-  -> EventHandler { | s } (aff :: AFF, effect :: EFFECT) Unit -> Effect Unit
-dispatch this eventHandler = eventHandler # eval this # runBaseAff' # launchAff_
+  -> EventHandler { | s } (aff :: AFF, effect :: EFFECT) Unit
+  -> Effect (Fiber Unit)
+dispatch this eventHandler = eventHandler # eval this # runBaseAff' # launchAff
 
--- | Provides an action dispatcher in the context of a Proact `Component`.
+-- | Runs the actions of an Event Handler and discards the fiber.
+dispatch_
+  :: forall s
+   . ReactThis { } { | s }
+  -> EventHandler { | s } (aff :: AFF, effect :: EFFECT) Unit -> Effect Unit
+dispatch_ this = void <<< dispatch this
+
+-- | Provides an action dispatcher in the context of a Proact `Component` that
+-- | returns the action fiber.
 dispatcher
   :: forall s t e1 e2
-   . PComponent s t e1 e2 (EventHandler t e2 Unit -> Effect Unit)
+   . PComponent s t e1 e2 (EventHandler t e2 Unit -> Effect (Fiber Unit))
 dispatcher = lift _dispatcher $ Dispatcher identity
+
+-- | Provides an action dispatcher in the context of a Proact `Component` that
+-- | discards the action fiber.
+dispatcher_
+  :: forall s t e1 e2
+   . PComponent s t e1 e2 (EventHandler t e2 Unit -> Effect Unit)
+dispatcher_ = map (map void) dispatcher
 
 -- | Changes a `Component`'s state type through the lens of a `Traversal`.
 -- | For a less restrictive albeit less general version, consider `focus'`.

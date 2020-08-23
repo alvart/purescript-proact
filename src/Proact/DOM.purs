@@ -238,6 +238,7 @@ import Data.Foldable (fold)
 import Data.Options (Options, options)
 import Data.Traversable (sequence)
 import Effect (Effect)
+import Effect.Aff (Fiber)
 import Foreign (Foreign)
 import Prelude (($), (>>=), (<<<), Unit, bind, mempty, pure)
 import Proact (EventHandler, PComponent, dispatcher) as P
@@ -1876,7 +1877,7 @@ wbr' = wbr mempty
 foreign import _createElement
   :: forall p s e
    . ReactClass p
-  -> (P.EventHandler s e Unit -> Effect Unit)
+  -> (P.EventHandler s e Unit -> Effect (Fiber Unit))
   -> Foreign
   -> Array ReactElement
   -> ReactElement
