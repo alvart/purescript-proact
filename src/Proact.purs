@@ -45,7 +45,7 @@ import Data.Lens.Index (class Index, ix)
 import Data.Lens.Indexed (positions)
 import Data.Maybe (Maybe(..), maybe)
 import Data.Newtype (class Newtype, unwrap)
-import Data.Tuple (Tuple, fst, snd)
+import Data.Tuple (Tuple(..), fst, snd)
 import Effect (Effect)
 import Effect.Aff (Fiber, launchAff)
 import Prelude
@@ -58,6 +58,7 @@ import Run
   , SProxy(..)
   , interpret
   , lift
+  , liftEffect
   , on
   , peel
   , runBaseAff'
@@ -65,13 +66,13 @@ import Run
   , send
   )
 import Run.Reader (READER, Reader(..), _reader, runReader)
-import Run.State (STATE, State(..), _state)
+import Run.State (STATE, State(..), _state, runState)
 import Undefined (undefined)
 import Unsafe.Coerce (unsafeCoerce)
 
 -- | A type synonym for a Proact Component.
 type Component s e1 e2 =
-  Run (reader :: READER s, dispatcher :: DISPATCHER s e2, state :: STATE s | e1)
+  Run (reader :: READER s, dispatcher :: DISPATCHER s e2 | e1)
 
 -- | A type synonym for Free programs that manipulate their component state
 -- | through the `State` effect.
@@ -89,7 +90,7 @@ type IndexedComponent i s e1 e2 =
 -- A type synonym for Free programs with global access to its component state
 -- and to an event dispatcher.
 type PComponent s t e1 e2 =
-  Run (reader :: READER s, dispatcher :: DISPATCHER t e2, state :: STATE t | e1)
+  Run (reader :: READER s, dispatcher :: DISPATCHER t e2 | e1)
 
 -- | A type synonym for the effects that require an Event Dispatcher.
 type DISPATCHER s e = FProxy (DispatcherF s e)
@@ -176,7 +177,6 @@ focus _traversal component =
       let _set = set $ element index _traversal
       component
         # focusProact _get _set
-        # focusState _get _set
         # withReader snd
         # runReader s
         # unsafeCoerce
@@ -199,7 +199,6 @@ focus' _lens component =
       component
         # map singleton
         # focusProact _get _set
-        # focusState _get _set
         # runReader s
         # map (maybe undefined identity <<< head)
         # unsafeCoerce
@@ -229,7 +228,6 @@ iFocus _iTraversal component =
       let _set = set $ ix index
       component
         # focusProact _get _set
-        # focusState _get _set
         # runReader s
         # unsafeCoerce
 
@@ -245,7 +243,6 @@ proact this component =
   component
     # runReader s
     # runDispatcher
-    # eval this
     # runBaseEffect
   where
   runDispatcher
@@ -329,7 +326,7 @@ focusState _get _set r =
   handleState (State f2 next) =
     join <<< lift _state <<< State f1 $ \s1 ->
       maybe (pure mempty) identity
-        $ map (focusState _get _set <<< next <<< f2)
+        $ map (focusState _get _set <<< next)
         $ _get s1
     where
     f1 s1 = maybe s1 identity $ map (flip _set s1 <<< f2) $ _get s1
@@ -341,21 +338,11 @@ eval
   -> Run (effect :: EFFECT, state :: STATE { | s } | r)
   ~> Run (effect :: EFFECT | r)
 eval this r =
-  case peel r
-  of
-    Left r' ->
-      case on _state Left Right $ unsafeCoerce r'
-      of
-        Left f -> handleState f
-        Right r'' -> send r'' >>= eval this
-    Right a -> pure a
-  where
-  handleState (State f next) =
-    join <<< lift _effect $
-      do
-      s <- map f $ getState this
-      writeState this s
-      pure $ eval this $ next s
+  do
+  s <- liftEffect $ getState this
+  Tuple s' a <- runState s r
+  liftEffect $ writeState this s'
+  pure a
 
 -- Changes the type of the context in a Reader effect.
 withReader
