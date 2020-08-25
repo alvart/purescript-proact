@@ -36,7 +36,7 @@ data Properties
 
 -- | Creates an option for the `style` property.
 style :: Option Properties CSS
-style = cmap renderInline $ opt "style"
+style = cmap renderInline $ opt "_style"
   where
   prop (Property k v) = Just $ Tuple k v
   prop _ = Nothing
@@ -638,774 +638,774 @@ unselectable = opt "unselectable"
 onAnimationStart
   :: forall s e
    . Option Properties (SyntheticAnimationEvent -> EventHandler s e Unit)
-onAnimationStart = opt "onAnimationStart"
+onAnimationStart = opt "_onAnimationStart"
 
 -- | Creates an option for the `onAnimationEnd` event.
 onAnimationEnd
   :: forall s e
    . Option Properties (SyntheticAnimationEvent -> EventHandler s e Unit)
-onAnimationEnd = opt "onAnimationEnd"
+onAnimationEnd = opt "_onAnimationEnd"
 
 -- | Creates an option for the `onAnimationIteration` event.
 onAnimationIteration
   :: forall s e
    . Option Properties (SyntheticAnimationEvent -> EventHandler s e Unit)
-onAnimationIteration = opt "onAnimationIteration"
+onAnimationIteration = opt "_onAnimationIteration"
 
 -- | Creates an option for the `onTransitionEnd` event.
 onTransitionEnd
   :: forall s e
    . Option Properties (SyntheticTransitionEvent -> EventHandler s e Unit)
-onTransitionEnd = opt "onTransitionEnd"
+onTransitionEnd = opt "_onTransitionEnd"
 
 -- | Creates an option for the `onToggle` event.
 onToggle
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onToggle = opt "onToggle"
+onToggle = opt "_onToggle"
 
 -- | Creates an option for the `onError` event.
 onError
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onError = opt "onError"
+onError = opt "_onError"
 
 -- | Creates an option for the `onLoad` event.
 onLoad
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onLoad = opt "onLoad"
+onLoad = opt "_onLoad"
 
 -- | Creates an option for the `onAbort` event.
 onAbort
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onAbort = opt "onAbort"
+onAbort = opt "_onAbort"
 
 -- | Creates an option for the `onCanPlay` event.
 onCanPlay
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onCanPlay = opt "onCanPlay"
+onCanPlay = opt "_onCanPlay"
 
 -- | Creates an option for the `onCanPlayThrough` event.
 onCanPlayThrough
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onCanPlayThrough = opt "onCanPlayThrough"
+onCanPlayThrough = opt "_onCanPlayThrough"
 
 -- | Creates an option for the `onDurationChange` event.
 onDurationChange
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onDurationChange = opt "onDurationChange"
+onDurationChange = opt "_onDurationChange"
 
 -- | Creates an option for the `onEmptied` event.
 onEmptied
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onEmptied = opt "onEmptied"
+onEmptied = opt "_onEmptied"
 
 -- | Creates an option for the `onEncrypted` event.
 onEncrypted
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onEncrypted = opt "onEncrypted"
+onEncrypted = opt "_onEncrypted"
 
 -- | Creates an option for the `onEnded` event.
 onEnded
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onEnded = opt "onEnded"
+onEnded = opt "_onEnded"
 
 -- | Creates an option for the `onLoadedData` event.
 onLoadedData
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onLoadedData = opt "onLoadedData"
+onLoadedData = opt "_onLoadedData"
 
 -- | Creates an option for the `onLoadedMetadata` event.
 onLoadedMetadata
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onLoadedMetadata = opt "onLoadedMetadata"
+onLoadedMetadata = opt "_onLoadedMetadata"
 
 -- | Creates an option for the `onLoadStart` event.
 onLoadStart
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onLoadStart = opt "onLoadStart"
+onLoadStart = opt "_onLoadStart"
 
 -- | Creates an option for the `onPause` event.
 onPause
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onPause = opt "onPause"
+onPause = opt "_onPause"
 
 -- | Creates an option for the `onPlay` event.
 onPlay
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onPlay = opt "onPlay"
+onPlay = opt "_onPlay"
 
 -- | Creates an option for the `onPlaying` event.
 onPlaying
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onPlaying = opt "onPlaying"
+onPlaying = opt "_onPlaying"
 
 -- | Creates an option for the `onProgress` event.
 onProgress
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onProgress = opt "onProgress"
+onProgress = opt "_onProgress"
 
 -- | Creates an option for the `onRateChange` event.
 onRateChange
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onRateChange = opt "onRateChange"
+onRateChange = opt "_onRateChange"
 
 -- | Creates an option for the `onSeeked` event.
 onSeeked
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onSeeked = opt "onSeeked"
+onSeeked = opt "_onSeeked"
 
 -- | Creates an option for the `onSeeking` event.
 onSeeking
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onSeeking = opt "onSeeking"
+onSeeking = opt "_onSeeking"
 
 -- | Creates an option for the `onStalled` event.
 onStalled
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onStalled = opt "onStalled"
+onStalled = opt "_onStalled"
 
 -- | Creates an option for the `onSuspend` event.
 onSuspend
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onSuspend = opt "onSuspend"
+onSuspend = opt "_onSuspend"
 
 -- | Creates an option for the `onTimeUpdate` event.
 onTimeUpdate
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onTimeUpdate = opt "onTimeUpdate"
+onTimeUpdate = opt "_onTimeUpdate"
 
 -- | Creates an option for the `onVolumeChange` event.
 onVolumeChange
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onVolumeChange = opt "onVolumeChange"
+onVolumeChange = opt "_onVolumeChange"
 
 -- | Creates an option for the `onWaiting` event.
 onWaiting
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onWaiting = opt "onWaiting"
+onWaiting = opt "_onWaiting"
 
 -- | Creates an option for the `onCopy` event.
 onCopy
   :: forall s e
    . Option Properties (SyntheticClipboardEvent -> EventHandler s e Unit)
-onCopy = opt "onCopy"
+onCopy = opt "_onCopy"
 
 -- | Creates an option for the `onCut` event.
 onCut
   :: forall s e
    . Option Properties (SyntheticClipboardEvent -> EventHandler s e Unit)
-onCut = opt "onCut"
+onCut = opt "_onCut"
 
 -- | Creates an option for the `onPaste` event.
 onPaste
   :: forall s e
    . Option Properties (SyntheticClipboardEvent -> EventHandler s e Unit)
-onPaste = opt "onPaste"
+onPaste = opt "_onPaste"
 
 -- | Creates an option for the `onCompositionEnd` event.
 onCompositionEnd
   :: forall s e
    . Option Properties (SyntheticCompositionEvent -> EventHandler s e Unit)
-onCompositionEnd = opt "onCompositionEnd"
+onCompositionEnd = opt "_onCompositionEnd"
 
 -- | Creates an option for the `onCompositionStart` event.
 onCompositionStart
   :: forall s e
    . Option Properties (SyntheticCompositionEvent -> EventHandler s e Unit)
-onCompositionStart = opt "onCompositionStart"
+onCompositionStart = opt "_onCompositionStart"
 
 -- | Creates an option for the `onCompositionUpdate` event.
 onCompositionUpdate
   :: forall s e
    . Option Properties (SyntheticCompositionEvent -> EventHandler s e Unit)
-onCompositionUpdate = opt "onCompositionUpdate"
+onCompositionUpdate = opt "_onCompositionUpdate"
 
 -- | Creates an option for the `onKeyDown` event.
 onKeyDown
   :: forall s e
    . Option Properties (SyntheticKeyboardEvent -> EventHandler s e Unit)
-onKeyDown = opt "onKeyDown"
+onKeyDown = opt "_onKeyDown"
 
 -- | Creates an option for the `onKeyPress` event.
 onKeyPress
   :: forall s e
    . Option Properties (SyntheticKeyboardEvent -> EventHandler s e Unit)
-onKeyPress = opt "onKeyPress"
+onKeyPress = opt "_onKeyPress"
 
 -- | Creates an option for the `onKeyUp` event.
 onKeyUp
   :: forall s e
    . Option Properties (SyntheticKeyboardEvent -> EventHandler s e Unit)
-onKeyUp = opt "onKeyUp"
+onKeyUp = opt "_onKeyUp"
 
 -- | Creates an option for the `onFocus` event.
 onFocus
   :: forall s e
    . Option Properties (SyntheticFocusEvent -> EventHandler s e Unit)
-onFocus = opt "onFocus"
+onFocus = opt "_onFocus"
 
 -- | Creates an option for the `onBlur` event.
 onBlur
   :: forall s e
    . Option Properties (SyntheticFocusEvent -> EventHandler s e Unit)
-onBlur = opt "onBlur"
+onBlur = opt "_onBlur"
 
 -- | Creates an option for the `onChange` event.
 onChange
   :: forall s e
    . Option Properties (SyntheticInputEvent -> EventHandler s e Unit)
-onChange = opt "onChange"
+onChange = opt "_onChange"
 
 -- | Creates an option for the `onInput` event.
 onInput
   :: forall s e
    . Option Properties (SyntheticInputEvent -> EventHandler s e Unit)
-onInput = opt "onInput"
+onInput = opt "_onInput"
 
 -- | Creates an option for the `onInvalid` event.
 onInvalid
   :: forall s e
    . Option Properties (SyntheticInputEvent -> EventHandler s e Unit)
-onInvalid = opt "onInvalid"
+onInvalid = opt "_onInvalid"
 
 -- | Creates an option for the `onSubmit` event.
 onSubmit
   :: forall s e
    . Option Properties (SyntheticInputEvent -> EventHandler s e Unit)
-onSubmit = opt "onSubmit"
+onSubmit = opt "_onSubmit"
 
 -- | Creates an option for the `onClick` event.
 onClick
   :: forall s e
    . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onClick = opt "onClick"
+onClick = opt "_onClick"
 
 -- | Creates an option for the `onContextMenu` event.
 onContextMenu
   :: forall s e
    . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onContextMenu = opt "onContextMenu"
+onContextMenu = opt "_onContextMenu"
 
 -- | Creates an option for the `onDoubleClick` event.
 onDoubleClick
   :: forall s e
    . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onDoubleClick = opt "onDoubleClick"
+onDoubleClick = opt "_onDoubleClick"
 
 -- | Creates an option for the `onDrag` event.
 onDrag
   :: forall s e
    . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onDrag = opt "onDrag"
+onDrag = opt "_onDrag"
 
 -- | Creates an option for the `onDragEnd` event.
 onDragEnd
   :: forall s e
    . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onDragEnd = opt "onDragEnd"
+onDragEnd = opt "_onDragEnd"
 
 -- | Creates an option for the `onDragEnter` event.
 onDragEnter
   :: forall s e
    . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onDragEnter = opt "onDragEnter"
+onDragEnter = opt "_onDragEnter"
 
 -- | Creates an option for the `onDragExit` event.
 onDragExit
   :: forall s e
    . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onDragExit = opt "onDragExit"
+onDragExit = opt "_onDragExit"
 
 -- | Creates an option for the `onDragLeave` event.
 onDragLeave
   :: forall s e
    . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onDragLeave = opt "onDragLeave"
+onDragLeave = opt "_onDragLeave"
 
 -- | Creates an option for the `onDragOver` event.
 onDragOver
   :: forall s e
    . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onDragOver = opt "onDragOver"
+onDragOver = opt "_onDragOver"
 
 -- | Creates an option for the `onDragStart` event.
 onDragStart
   :: forall s e
    . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onDragStart = opt "onDragStart"
+onDragStart = opt "_onDragStart"
 
 -- | Creates an option for the `onDrop` event.
 onDrop
   :: forall s e
    . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onDrop = opt "onDrop"
+onDrop = opt "_onDrop"
 
 -- | Creates an option for the `onMouseDown` event.
 onMouseDown
   :: forall s e
    . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onMouseDown = opt "onMouseDown"
+onMouseDown = opt "_onMouseDown"
 
 -- | Creates an option for the `onMouseEnter` event.
 onMouseEnter
   :: forall s e
    . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onMouseEnter = opt "onMouseEnter"
+onMouseEnter = opt "_onMouseEnter"
 
 -- | Creates an option for the `onMouseLeave` event.
 onMouseLeave
   :: forall s e
    . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onMouseLeave = opt "onMouseLeave"
+onMouseLeave = opt "_onMouseLeave"
 
 -- | Creates an option for the `onMouseMove` event.
 onMouseMove
   :: forall s e
    . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onMouseMove = opt "onMouseMove"
+onMouseMove = opt "_onMouseMove"
 
 -- | Creates an option for the `onMouseOut` event.
 onMouseOut
   :: forall s e
    . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onMouseOut = opt "onMouseOut"
+onMouseOut = opt "_onMouseOut"
 
 -- | Creates an option for the `onMouseOver` event.
 onMouseOver
   :: forall s e
    . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onMouseOver = opt "onMouseOver"
+onMouseOver = opt "_onMouseOver"
 
 -- | Creates an option for the `onMouseUp` event.
 onMouseUp
   :: forall s e
    . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onMouseUp = opt "onMouseUp"
+onMouseUp = opt "_onMouseUp"
 
 -- | Creates an option for the `onSelect` event.
 onSelect
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onSelect = opt "onSelect"
+onSelect = opt "_onSelect"
 
 -- | Creates an option for the `onTouchCancel` event.
 onTouchCancel
   :: forall s e
    . Option Properties (SyntheticTouchEvent -> EventHandler s e Unit)
-onTouchCancel = opt "onTouchCancel"
+onTouchCancel = opt "_onTouchCancel"
 
 -- | Creates an option for the `onTouchEnd` event.
 onTouchEnd
   :: forall s e
    . Option Properties (SyntheticTouchEvent -> EventHandler s e Unit)
-onTouchEnd = opt "onTouchEnd"
+onTouchEnd = opt "_onTouchEnd"
 
 -- | Creates an option for the `onTouchMove` event.
 onTouchMove
   :: forall s e
    . Option Properties (SyntheticTouchEvent -> EventHandler s e Unit)
-onTouchMove = opt "onTouchMove"
+onTouchMove = opt "_onTouchMove"
 
 -- | Creates an option for the `onTouchStart` event.
 onTouchStart
   :: forall s e
    . Option Properties (SyntheticTouchEvent -> EventHandler s e Unit)
-onTouchStart = opt "onTouchStart"
+onTouchStart = opt "_onTouchStart"
 
 -- | Creates an option for the `onScroll` event.
 onScroll
   :: forall s e
    . Option Properties (SyntheticUIEvent -> EventHandler s e Unit)
-onScroll = opt "onScroll"
+onScroll = opt "_onScroll"
 
 -- | Creates an option for the `onWheel` event.
 onWheel
   :: forall s e
    . Option Properties (SyntheticWheelEvent -> EventHandler s e Unit)
-onWheel = opt "onWheel"
+onWheel = opt "_onWheel"
 
 -- | Creates an option for the `onAnimationStartCapture` event.
 onAnimationStartCapture
   :: forall s e
    . Option Properties (SyntheticAnimationEvent -> EventHandler s e Unit)
-onAnimationStartCapture = opt "onAnimationStartCapture"
+onAnimationStartCapture = opt "_onAnimationStartCapture"
 
 -- | Creates an option for the `onAnimationEndCapture` event.
 onAnimationEndCapture
   :: forall s e
    . Option Properties (SyntheticAnimationEvent -> EventHandler s e Unit)
-onAnimationEndCapture = opt "onAnimationEndCapture"
+onAnimationEndCapture = opt "_onAnimationEndCapture"
 
 -- | Creates an option for the `onAnimationIterationCapture` event.
 onAnimationIterationCapture
   :: forall s e
    . Option Properties (SyntheticAnimationEvent -> EventHandler s e Unit)
-onAnimationIterationCapture = opt "onAnimationIterationCapture"
+onAnimationIterationCapture = opt "_onAnimationIterationCapture"
 
 -- | Creates an option for the `onTransitionEndCapture` event.
 onTransitionEndCapture
   :: forall s e
    . Option Properties (SyntheticTransitionEvent -> EventHandler s e Unit)
-onTransitionEndCapture = opt "onTransitionEndCapture"
+onTransitionEndCapture = opt "_onTransitionEndCapture"
 
 -- | Creates an option for the `onToggleCapture` event.
 onToggleCapture
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onToggleCapture = opt "onToggleCapture"
+onToggleCapture = opt "_onToggleCapture"
 
 -- | Creates an option for the `onErrorCapture` event.
 onErrorCapture
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onErrorCapture = opt "onErrorCapture"
+onErrorCapture = opt "_onErrorCapture"
 
 -- | Creates an option for the `onLoadCapture` event.
 onLoadCapture
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onLoadCapture = opt "onLoadCapture"
+onLoadCapture = opt "_onLoadCapture"
 
 -- | Creates an option for the `onAbortCapture` event.
 onAbortCapture
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onAbortCapture = opt "onAbortCapture"
+onAbortCapture = opt "_onAbortCapture"
 
 -- | Creates an option for the `onCanPlayCapture` event.
 onCanPlayCapture
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onCanPlayCapture = opt "onCanPlayCapture"
+onCanPlayCapture = opt "_onCanPlayCapture"
 
 -- | Creates an option for the `onCanPlayThroughCapture` event.
 onCanPlayThroughCapture
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onCanPlayThroughCapture = opt "onCanPlayThroughCapture"
+onCanPlayThroughCapture = opt "_onCanPlayThroughCapture"
 
 -- | Creates an option for the `onDurationChangeCapture` event.
 onDurationChangeCapture
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onDurationChangeCapture = opt "onDurationChangeCapture"
+onDurationChangeCapture = opt "_onDurationChangeCapture"
 
 -- | Creates an option for the `onEmptiedCapture` event.
 onEmptiedCapture
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onEmptiedCapture = opt "onEmptiedCapture"
+onEmptiedCapture = opt "_onEmptiedCapture"
 
 -- | Creates an option for the `onEncryptedCapture` event.
 onEncryptedCapture
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onEncryptedCapture = opt "onEncryptedCapture"
+onEncryptedCapture = opt "_onEncryptedCapture"
 
 -- | Creates an option for the `onEndedCapture` event.
 onEndedCapture
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onEndedCapture = opt "onEndedCapture"
+onEndedCapture = opt "_onEndedCapture"
 
 -- | Creates an option for the `onLoadedDataCapture` event.
 onLoadedDataCapture
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onLoadedDataCapture = opt "onLoadedDataCapture"
+onLoadedDataCapture = opt "_onLoadedDataCapture"
 
 -- | Creates an option for the `onLoadedMetadataCapture` event.
 onLoadedMetadataCapture
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onLoadedMetadataCapture = opt "onLoadedMetadataCapture"
+onLoadedMetadataCapture = opt "_onLoadedMetadataCapture"
 
 -- | Creates an option for the `onLoadStartCapture` event.
 onLoadStartCapture
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onLoadStartCapture = opt "onLoadStartCapture"
+onLoadStartCapture = opt "_onLoadStartCapture"
 
 -- | Creates an option for the `onPauseCapture` event.
 onPauseCapture
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onPauseCapture = opt "onPauseCapture"
+onPauseCapture = opt "_onPauseCapture"
 
 -- | Creates an option for the `onPlayCapture` event.
 onPlayCapture
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onPlayCapture = opt "onPlayCapture"
+onPlayCapture = opt "_onPlayCapture"
 
 -- | Creates an option for the `onPlayingCapture` event.
 onPlayingCapture
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onPlayingCapture = opt "onPlayingCapture"
+onPlayingCapture = opt "_onPlayingCapture"
 
 -- | Creates an option for the `onProgressCapture` event.
 onProgressCapture
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onProgressCapture = opt "onProgressCapture"
+onProgressCapture = opt "_onProgressCapture"
 
 -- | Creates an option for the `onRateChangeCapture` event.
 onRateChangeCapture
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onRateChangeCapture = opt "onRateChangeCapture"
+onRateChangeCapture = opt "_onRateChangeCapture"
 
 -- | Creates an option for the `onSeekedCapture` event.
 onSeekedCapture
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onSeekedCapture = opt "onSeekedCapture"
+onSeekedCapture = opt "_onSeekedCapture"
 
 -- | Creates an option for the `onSeekingCapture` event.
 onSeekingCapture
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onSeekingCapture = opt "onSeekingCapture"
+onSeekingCapture = opt "_onSeekingCapture"
 
 -- | Creates an option for the `onStalledCapture` event.
 onStalledCapture
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onStalledCapture = opt "onStalledCapture"
+onStalledCapture = opt "_onStalledCapture"
 
 -- | Creates an option for the `onSuspendCapture` event.
 onSuspendCapture
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onSuspendCapture = opt "onSuspendCapture"
+onSuspendCapture = opt "_onSuspendCapture"
 
 -- | Creates an option for the `onTimeUpdateCapture` event.
 onTimeUpdateCapture
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onTimeUpdateCapture = opt "onTimeUpdateCapture"
+onTimeUpdateCapture = opt "_onTimeUpdateCapture"
 
 -- | Creates an option for the `onVolumeChangeCapture` event.
 onVolumeChangeCapture
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onVolumeChangeCapture = opt "onVolumeChangeCapture"
+onVolumeChangeCapture = opt "_onVolumeChangeCapture"
 
 -- | Creates an option for the `onWaitingCapture` event.
 onWaitingCapture
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onWaitingCapture = opt "onWaitingCapture"
+onWaitingCapture = opt "_onWaitingCapture"
 
 -- | Creates an option for the `onCopyCapture` event.
 onCopyCapture
   :: forall s e
    . Option Properties (SyntheticClipboardEvent -> EventHandler s e Unit)
-onCopyCapture = opt "onCopyCapture"
+onCopyCapture = opt "_onCopyCapture"
 
 -- | Creates an option for the `onCutCapture` event.
 onCutCapture
   :: forall s e
    . Option Properties (SyntheticClipboardEvent -> EventHandler s e Unit)
-onCutCapture = opt "onCutCapture"
+onCutCapture = opt "_onCutCapture"
 
 -- | Creates an option for the `onPasteCapture` event.
 onPasteCapture
   :: forall s e
    . Option Properties (SyntheticClipboardEvent -> EventHandler s e Unit)
-onPasteCapture = opt "onPasteCapture"
+onPasteCapture = opt "_onPasteCapture"
 
 -- | Creates an option for the `onCompositionEndCapture` event.
 onCompositionEndCapture
   :: forall s e
    . Option Properties (SyntheticCompositionEvent -> EventHandler s e Unit)
-onCompositionEndCapture = opt "onCompositionEndCapture"
+onCompositionEndCapture = opt "_onCompositionEndCapture"
 
 -- | Creates an option for the `onCompositionStartCapture` event.
 onCompositionStartCapture
   :: forall s e
    . Option Properties (SyntheticCompositionEvent -> EventHandler s e Unit)
-onCompositionStartCapture = opt "onCompositionStartCapture"
+onCompositionStartCapture = opt "_onCompositionStartCapture"
 
 -- | Creates an option for the `onCompositionUpdateCapture` event.
 onCompositionUpdateCapture
   :: forall s e
    . Option Properties (SyntheticCompositionEvent -> EventHandler s e Unit)
-onCompositionUpdateCapture = opt "onCompositionUpdateCapture"
+onCompositionUpdateCapture = opt "_onCompositionUpdateCapture"
 
 -- | Creates an option for the `onKeyDownCapture` event.
 onKeyDownCapture
   :: forall s e
    . Option Properties (SyntheticKeyboardEvent -> EventHandler s e Unit)
-onKeyDownCapture = opt "onKeyDownCapture"
+onKeyDownCapture = opt "_onKeyDownCapture"
 
 -- | Creates an option for the `onKeyPressCapture` event.
 onKeyPressCapture
   :: forall s e
    . Option Properties (SyntheticKeyboardEvent -> EventHandler s e Unit)
-onKeyPressCapture = opt "onKeyPressCapture"
+onKeyPressCapture = opt "_onKeyPressCapture"
 
 -- | Creates an option for the `onKeyUpCapture` event.
 onKeyUpCapture
   :: forall s e
    . Option Properties (SyntheticKeyboardEvent -> EventHandler s e Unit)
-onKeyUpCapture = opt "onKeyUpCapture"
+onKeyUpCapture = opt "_onKeyUpCapture"
 
 -- | Creates an option for the `onFocusCapture` event.
 onFocusCapture
   :: forall s e
    . Option Properties (SyntheticFocusEvent -> EventHandler s e Unit)
-onFocusCapture = opt "onFocusCapture"
+onFocusCapture = opt "_onFocusCapture"
 
 -- | Creates an option for the `onBlurCapture` event.
 onBlurCapture
   :: forall s e
    . Option Properties (SyntheticFocusEvent -> EventHandler s e Unit)
-onBlurCapture = opt "onBlurCapture"
+onBlurCapture = opt "_onBlurCapture"
 
 -- | Creates an option for the `onChangeCapture` event.
 onChangeCapture
   :: forall s e
    . Option Properties (SyntheticInputEvent -> EventHandler s e Unit)
-onChangeCapture = opt "onChangeCapture"
+onChangeCapture = opt "_onChangeCapture"
 
 -- | Creates an option for the `onInputCapture` event.
 onInputCapture
   :: forall s e
    . Option Properties (SyntheticInputEvent -> EventHandler s e Unit)
-onInputCapture = opt "onInputCapture"
+onInputCapture = opt "_onInputCapture"
 
 -- | Creates an option for the `onInvalidCapture` event.
 onInvalidCapture
   :: forall s e
    . Option Properties (SyntheticInputEvent -> EventHandler s e Unit)
-onInvalidCapture = opt "onInvalidCapture"
+onInvalidCapture = opt "_onInvalidCapture"
 
 -- | Creates an option for the `onSubmitCapture` event.
 onSubmitCapture
   :: forall s e
    . Option Properties (SyntheticInputEvent -> EventHandler s e Unit)
-onSubmitCapture = opt "onSubmitCapture"
+onSubmitCapture = opt "_onSubmitCapture"
 
 -- | Creates an option for the `onClickCapture` event.
 onClickCapture
   :: forall s e
    . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onClickCapture = opt "onClickCapture"
+onClickCapture = opt "_onClickCapture"
 
 -- | Creates an option for the `onContextMenuCapture` event.
 onContextMenuCapture
   :: forall s e
    . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onContextMenuCapture = opt "onContextMenuCapture"
+onContextMenuCapture = opt "_onContextMenuCapture"
 
 -- | Creates an option for the `onDoubleClickCapture` event.
 onDoubleClickCapture
   :: forall s e
    . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onDoubleClickCapture = opt "onDoubleClickCapture"
+onDoubleClickCapture = opt "_onDoubleClickCapture"
 
 -- | Creates an option for the `onDragCapture` event.
 onDragCapture
   :: forall s e
    . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onDragCapture = opt "onDragCapture"
+onDragCapture = opt "_onDragCapture"
 
 -- | Creates an option for the `onDragEndCapture` event.
 onDragEndCapture
   :: forall s e
    . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onDragEndCapture = opt "onDragEndCapture"
+onDragEndCapture = opt "_onDragEndCapture"
 
 -- | Creates an option for the `onDragEnterCapture` event.
 onDragEnterCapture
   :: forall s e
    . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onDragEnterCapture = opt "onDragEnterCapture"
+onDragEnterCapture = opt "_onDragEnterCapture"
 
 -- | Creates an option for the `onDragExitCapture` event.
 onDragExitCapture
   :: forall s e
    . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onDragExitCapture = opt "onDragExitCapture"
+onDragExitCapture = opt "_onDragExitCapture"
 
 -- | Creates an option for the `onDragLeaveCapture` event.
 onDragLeaveCapture
   :: forall s e
    . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onDragLeaveCapture = opt "onDragLeaveCapture"
+onDragLeaveCapture = opt "_onDragLeaveCapture"
 
 -- | Creates an option for the `onDragOverCapture` event.
 onDragOverCapture
   :: forall s e
    . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onDragOverCapture = opt "onDragOverCapture"
+onDragOverCapture = opt "_onDragOverCapture"
 
 -- | Creates an option for the `onDragStartCapture` event.
 onDragStartCapture
   :: forall s e
    . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onDragStartCapture = opt "onDragStartCapture"
+onDragStartCapture = opt "_onDragStartCapture"
 
 -- | Creates an option for the `onDropCapture` event.
 onDropCapture
   :: forall s e
    . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onDropCapture = opt "onDropCapture"
+onDropCapture = opt "_onDropCapture"
 
 -- | Creates an option for the `onMouseDownCapture` event.
 onMouseDownCapture
   :: forall s e
    . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onMouseDownCapture = opt "onMouseDownCapture"
+onMouseDownCapture = opt "_onMouseDownCapture"
 
 -- | Creates an option for the `onMouseEnterCapture` event.
 onMouseEnterCapture
   :: forall s e
    . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onMouseEnterCapture = opt "onMouseEnterCapture"
+onMouseEnterCapture = opt "_onMouseEnterCapture"
 
 -- | Creates an option for the `onMouseLeaveCapture` event.
 onMouseLeaveCapture
   :: forall s e
    . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onMouseLeaveCapture = opt "onMouseLeaveCapture"
+onMouseLeaveCapture = opt "_onMouseLeaveCapture"
 
 -- | Creates an option for the `onMouseMoveCapture` event.
 onMouseMoveCapture
   :: forall s e
    . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onMouseMoveCapture = opt "onMouseMoveCapture"
+onMouseMoveCapture = opt "_onMouseMoveCapture"
 
 -- | Creates an option for the `onMouseOutCapture` event.
 onMouseOutCapture
   :: forall s e
    . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onMouseOutCapture = opt "onMouseOutCapture"
+onMouseOutCapture = opt "_onMouseOutCapture"
 
 -- | Creates an option for the `onMouseOverCapture` event.
 onMouseOverCapture
   :: forall s e
    . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onMouseOverCapture = opt "onMouseOverCapture"
+onMouseOverCapture = opt "_onMouseOverCapture"
 
 -- | Creates an option for the `onMouseUpCapture` event.
 onMouseUpCapture
   :: forall s e
    . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onMouseUpCapture = opt "onMouseUpCapture"
+onMouseUpCapture = opt "_onMouseUpCapture"
 
 -- | Creates an option for the `onSelectCapture` event.
 onSelectCapture
   :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onSelectCapture = opt "onSelectCapture"
+onSelectCapture = opt "_onSelectCapture"
 
 -- | Creates an option for the `onTouchCancelCapture` event.
 onTouchCancelCapture
   :: forall s e
    . Option Properties (SyntheticTouchEvent -> EventHandler s e Unit)
-onTouchCancelCapture = opt "onTouchCancelCapture"
+onTouchCancelCapture = opt "_onTouchCancelCapture"
 
 -- | Creates an option for the `onTouchEndCapture` event.
 onTouchEndCapture
   :: forall s e
    . Option Properties (SyntheticTouchEvent -> EventHandler s e Unit)
-onTouchEndCapture = opt "onTouchEndCapture"
+onTouchEndCapture = opt "_onTouchEndCapture"
 
 -- | Creates an option for the `onTouchMoveCapture` event.
 onTouchMoveCapture
   :: forall s e
    . Option Properties (SyntheticTouchEvent -> EventHandler s e Unit)
-onTouchMoveCapture = opt "onTouchMoveCapture"
+onTouchMoveCapture = opt "_onTouchMoveCapture"
 
 -- | Creates an option for the `onTouchStartCapture` event.
 onTouchStartCapture
   :: forall s e
    . Option Properties (SyntheticTouchEvent -> EventHandler s e Unit)
-onTouchStartCapture = opt "onTouchStartCapture"
+onTouchStartCapture = opt "_onTouchStartCapture"
 
 -- | Creates an option for the `onScrollCapture` event.
 onScrollCapture
   :: forall s e
    . Option Properties (SyntheticUIEvent -> EventHandler s e Unit)
-onScrollCapture = opt "onScrollCapture"
+onScrollCapture = opt "_onScrollCapture"
 
 -- | Creates an option for the `onWheelCapture` event.
 onWheelCapture
   :: forall s e
    . Option Properties (SyntheticWheelEvent -> EventHandler s e Unit)
-onWheelCapture = opt "onWheelCapture"
+onWheelCapture = opt "_onWheelCapture"

@@ -49,7 +49,7 @@ import Data.Tuple (Tuple(..), fst, snd)
 import Effect (Effect)
 import Effect.Aff (Fiber, launchAff)
 import Prelude
-import React (ReactThis, getState, writeState)
+import React (ReactThis, getState, modifyState)
 import Run
   ( AFF
   , EFFECT
@@ -126,20 +126,27 @@ derive instance functorDispatcherF :: Functor (DispatcherF s e)
 _dispatcher :: SProxy "dispatcher"
 _dispatcher = SProxy
 
--- | Runs the actions of an Event Handler and returns the fiber.
+-- | Runs the actions of an Event Handler and returns the fiber. For events that
+-- | update the state concurrently, a function to reconcile the different
+-- | versions is applied.
 dispatch
   :: forall s
    . ReactThis { } { | s }
+  -> ({ | s } -> { | s } -> { | s })
   -> EventHandler { | s } (aff :: AFF, effect :: EFFECT) Unit
   -> Effect (Fiber Unit)
-dispatch this eventHandler = eventHandler # eval this # runBaseAff' # launchAff
+dispatch this reconcile eventHandler =
+  eventHandler # eval this reconcile # runBaseAff' # launchAff
 
--- | Runs the actions of an Event Handler and discards the fiber.
+-- | Runs the actions of an Event Handler and discards the fiber. For events
+-- | that update the state concurrently, a function to reconcile the different
+-- | versions is applied.
 dispatch_
   :: forall s
    . ReactThis { } { | s }
+  -> ({ | s } -> { | s } -> { | s })
   -> EventHandler { | s } (aff :: AFF, effect :: EFFECT) Unit -> Effect Unit
-dispatch_ this = void <<< dispatch this
+dispatch_ this reconcile = void <<< dispatch this reconcile
 
 -- | Provides an action dispatcher in the context of a Proact `Component` that
 -- | returns the action fiber.
@@ -231,13 +238,16 @@ iFocus _iTraversal component =
         # runReader s
         # unsafeCoerce
 
--- | Extracts the value inside a Proact component.
+-- | Extracts the value inside a Proact component. For events that update the
+-- | state concurrently, a function to reconcile the different versions is
+-- | applied.
 proact
   :: forall s
    . ReactThis { } { | s }
+  -> ({ | s } -> { | s } -> { | s })
   -> Component { | s } (effect :: EFFECT) (aff :: AFF, effect :: EFFECT)
   ~> Effect
-proact this component =
+proact this reconcile component =
   do
   s <- getState this
   component
@@ -251,8 +261,9 @@ proact this component =
     ~> Run r
   runDispatcher = interpret (on _dispatcher handleDispatcher send)
     where
-    handleDispatcher :: DispatcherF { | s } (aff :: AFF, effect :: EFFECT) ~> Run r
-    handleDispatcher (Dispatcher next) = pure $ next (dispatch this)
+    handleDispatcher
+      :: DispatcherF { | s } (aff :: AFF, effect :: EFFECT) ~> Run r
+    handleDispatcher (Dispatcher next) = pure $ next (dispatch this reconcile)
 
 -- | Translates the extensible effects of the Proact dispatcher.
 translate
@@ -305,6 +316,22 @@ focusProact _get _set r =
 _effect :: SProxy "effect"
 _effect = SProxy
 
+-- Evaluates the state of a program in the context of a React component. For
+-- events that update the state concurrently, a function to reconcile the
+-- different versions is applied.
+eval
+  :: forall r s
+   . ReactThis { } { | s }
+  -> ({ | s } -> { | s } -> { | s })
+  -> Run (effect :: EFFECT, state :: STATE { | s } | r)
+  ~> Run (effect :: EFFECT | r)
+eval this reconcile r =
+  do
+  s <- liftEffect $ getState this
+  Tuple s' a <- runState s r
+  liftEffect $ modifyState this $ flip reconcile s'
+  pure a
+
 -- Changes the type of the state through getter and setter functions.
 focusState
   :: forall s1 s2 e a
@@ -330,19 +357,6 @@ focusState _get _set r =
         $ _get s1
     where
     f1 s1 = maybe s1 identity $ map (flip _set s1 <<< f2) $ _get s1
-
--- Evaluates the state of a program in the context of a React component.
-eval
-  :: forall r s
-   . ReactThis { } { | s }
-  -> Run (effect :: EFFECT, state :: STATE { | s } | r)
-  ~> Run (effect :: EFFECT | r)
-eval this r =
-  do
-  s <- liftEffect $ getState this
-  Tuple s' a <- runState s r
-  liftEffect $ writeState this s'
-  pure a
 
 -- Changes the type of the context in a Reader effect.
 withReader
