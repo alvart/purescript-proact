@@ -275,7 +275,7 @@ text = pure <<< R.text
 -- | Creates a Proact component for the `a` React element.
 a
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 a = createElement' "a"
@@ -290,7 +290,7 @@ a' = a mempty
 -- | Creates a Proact component for the `abbr` React element.
 abbr
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 abbr = createElement' "abbr"
@@ -305,7 +305,7 @@ abbr' = abbr mempty
 -- | Creates a Proact component for the `address` React element.
 address
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 address = createElement' "address"
@@ -320,7 +320,7 @@ address' = address mempty
 -- | Creates a Proact component for the `area` React element.
 area
   :: forall s t e1 e2
-   . Array (Options Properties) -> P.PComponent s t e1 e2 ReactElement
+   . Array (Options (Properties t e2)) -> P.PComponent s t e1 e2 ReactElement
 area props = createElement' "area" props [ ]
 
 -- | A property-less constructor for `area`.
@@ -330,7 +330,7 @@ area' = area mempty
 -- | Creates a Proact component for the `article` React element.
 article
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 article = createElement' "article"
@@ -345,7 +345,7 @@ article' = article mempty
 -- | Creates a Proact component for the `aside` React element.
 aside
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 aside = createElement' "aside"
@@ -360,7 +360,7 @@ aside' = aside mempty
 -- | Creates a Proact component for the `audio` React element.
 audio
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 audio = createElement' "audio"
@@ -375,7 +375,7 @@ audio' = audio mempty
 -- | Creates a Proact component for the `b` React element.
 b
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 b = createElement' "b"
@@ -390,7 +390,7 @@ b' = b mempty
 -- | Creates a Proact component for the `base` React element.
 base
   :: forall s t e1 e2
-   . Array (Options Properties) -> P.PComponent s t e1 e2 ReactElement
+   . Array (Options (Properties t e2)) -> P.PComponent s t e1 e2 ReactElement
 base props = createElement' "base" props [ ]
 
 -- | A property-less constructor for `base`.
@@ -400,7 +400,7 @@ base' = base mempty
 -- | Creates a Proact component for the `bdi` React element.
 bdi
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 bdi = createElement' "bdi"
@@ -415,7 +415,7 @@ bdi' = bdi mempty
 -- | Creates a Proact component for the `bdo` React element.
 bdo
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 bdo = createElement' "bdo"
@@ -430,7 +430,7 @@ bdo' = bdo mempty
 -- | Creates a Proact component for the `big` React element.
 big
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 big = createElement' "big"
@@ -445,7 +445,7 @@ big' = big mempty
 -- | Creates a Proact component for the `blockquote` React element.
 blockquote
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 blockquote = createElement' "blockquote"
@@ -460,7 +460,7 @@ blockquote' = blockquote mempty
 -- | Creates a Proact component for the `body` React element.
 body
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 body = createElement' "body"
@@ -475,7 +475,7 @@ body' = body mempty
 -- | Creates a Proact component for the `br` React element.
 br
   :: forall s t e1 e2
-   . Array (Options Properties) -> P.PComponent s t e1 e2 ReactElement
+   . Array (Options (Properties t e2)) -> P.PComponent s t e1 e2 ReactElement
 br props = createElement' "br" props [ ]
 
 -- | A property-less constructor for `br`.
@@ -485,7 +485,7 @@ br' = br mempty
 -- | Creates a Proact component for the `button` React element.
 button
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 button = createElement' "button"
@@ -500,7 +500,7 @@ button' = button mempty
 -- | Creates a Proact component for the `canvas` React element.
 canvas
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 canvas = createElement' "canvas"
@@ -515,7 +515,7 @@ canvas' = canvas mempty
 -- | Creates a Proact component for the `caption` React element.
 caption
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 caption = createElement' "caption"
@@ -530,7 +530,7 @@ caption' = caption mempty
 -- | Creates a Proact component for the `cite` React element.
 cite
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 cite = createElement' "cite"
@@ -545,7 +545,7 @@ cite' = cite mempty
 -- | Creates a Proact component for the `code` React element.
 code
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 code = createElement' "code"
@@ -560,7 +560,7 @@ code' = code mempty
 -- | Creates a Proact component for the `col` React element.
 col
   :: forall s t e1 e2
-   . Array (Options Properties) -> P.PComponent s t e1 e2 ReactElement
+   . Array (Options (Properties t e2)) -> P.PComponent s t e1 e2 ReactElement
 col props = createElement' "col" props [ ]
 
 -- | A property-less constructor for `col`.
@@ -570,7 +570,7 @@ col' = col mempty
 -- | Creates a Proact component for the `colgroup` React element.
 colgroup
   :: forall s t e1 e2 
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 colgroup = createElement' "colgroup"
@@ -585,7 +585,7 @@ colgroup' = colgroup mempty
 -- | Creates a Proact component for the `_data` React element.
 _data
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 _data = createElement' "_data"
@@ -600,7 +600,7 @@ _data' = _data mempty
 -- | Creates a Proact component for the `datalist` React element.
 datalist
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 datalist = createElement' "datalist"
@@ -615,7 +615,7 @@ datalist' = datalist mempty
 -- | Creates a Proact component for the `dd` React element.
 dd
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 dd = createElement' "dd"
@@ -630,7 +630,7 @@ dd' = dd mempty
 -- | Creates a Proact component for the `del` React element.
 del
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 del = createElement' "del"
@@ -645,7 +645,7 @@ del' = del mempty
 -- | Creates a Proact component for the `details` React element.
 details
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 details = createElement' "details"
@@ -660,7 +660,7 @@ details' = details mempty
 -- | Creates a Proact component for the `dfn` React element.
 dfn
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 dfn = createElement' "dfn"
@@ -675,7 +675,7 @@ dfn' = dfn mempty
 -- | Creates a Proact component for the `dialog` React element.
 dialog
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 dialog = createElement' "dialog"
@@ -690,7 +690,7 @@ dialog' = dialog mempty
 -- | Creates a Proact component for the `div` React element.
 div
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 div = createElement' "div"
@@ -705,7 +705,7 @@ div' = div mempty
 -- | Creates a Proact component for the `dl` React element.
 dl
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 dl = createElement' "dl"
@@ -720,7 +720,7 @@ dl' = dl mempty
 -- | Creates a Proact component for the `dt` React element.
 dt
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 dt = createElement' "dt"
@@ -735,7 +735,7 @@ dt' = dt mempty
 -- | Creates a Proact component for the `em` React element.
 em
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 em = createElement' "em"
@@ -750,7 +750,7 @@ em' = em mempty
 -- | Creates a Proact component for the `embed` React element.
 embed
   :: forall s t e1 e2
-   . Array (Options Properties) -> P.PComponent s t e1 e2 ReactElement
+   . Array (Options (Properties t e2)) -> P.PComponent s t e1 e2 ReactElement
 embed props = createElement' "embed" props [ ]
 
 -- | A property-less constructor for `embed`.
@@ -760,7 +760,7 @@ embed' = embed mempty
 -- | Creates a Proact component for the `fieldset` React element.
 fieldset
   :: forall s t e1 e2
-   .  Array (Options Properties)
+   .  Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 fieldset = createElement' "fieldset"
@@ -775,7 +775,7 @@ fieldset' = fieldset mempty
 -- | Creates a Proact component for the `figcaption` React element.
 figcaption
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 figcaption = createElement' "figcaption"
@@ -790,7 +790,7 @@ figcaption' = figcaption mempty
 -- | Creates a Proact component for the `figure` React element.
 figure
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 figure = createElement' "figure"
@@ -805,7 +805,7 @@ figure' = figure mempty
 -- | Creates a Proact component for the `footer` React element.
 footer
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 footer = createElement' "footer"
@@ -820,7 +820,7 @@ footer' = footer mempty
 -- | Creates a Proact component for the `form` React element.
 form
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 form = createElement' "form"
@@ -835,7 +835,7 @@ form' = form mempty
 -- | Creates a Proact component for the `h1` React element.
 h1
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 h1 = createElement' "h1"
@@ -850,7 +850,7 @@ h1' = h1 mempty
 -- | Creates a Proact component for the `h2` React element.
 h2
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 h2 = createElement' "h2"
@@ -865,7 +865,7 @@ h2' = h2 mempty
 -- | Creates a Proact component for the `h3` React element.
 h3
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 h3 = createElement' "h3"
@@ -880,7 +880,7 @@ h3' = h3 mempty
 -- | Creates a Proact component for the `h4` React element.
 h4
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 h4 = createElement' "h4"
@@ -895,7 +895,7 @@ h4' = h4 mempty
 -- | Creates a Proact component for the `h5` React element.
 h5
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 h5 = createElement' "h5"
@@ -910,7 +910,7 @@ h5' = h5 mempty
 -- | Creates a Proact component for the `h6` React element.
 h6
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 h6 = createElement' "h6"
@@ -925,7 +925,7 @@ h6' = h6 mempty
 -- | Creates a Proact component for the `head` React element.
 head
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 head = createElement' "head"
@@ -940,7 +940,7 @@ head' = head mempty
 -- | Creates a Proact component for the `header` React element.
 header
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 header = createElement' "header"
@@ -955,7 +955,7 @@ header' = header mempty
 -- | Creates a Proact component for the `hr` React element.
 hr
   :: forall s t e1 e2
-   . Array (Options Properties) -> P.PComponent s t e1 e2 ReactElement
+   . Array (Options (Properties t e2)) -> P.PComponent s t e1 e2 ReactElement
 hr props = createElement' "hr" props [ ]
 
 -- | A property-less constructor for `hr`.
@@ -965,7 +965,7 @@ hr' = hr mempty
 -- | Creates a Proact component for the `html` React element.
 html
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 html = createElement' "html"
@@ -980,7 +980,7 @@ html' = html mempty
 -- | Creates a Proact component for the `i` React element.
 i
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 i = createElement' "i"
@@ -995,7 +995,7 @@ i' = i mempty
 -- | Creates a Proact component for the `iframe` React element.
 iframe
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 iframe = createElement' "iframe"
@@ -1010,7 +1010,7 @@ iframe' = iframe mempty
 -- | Creates a Proact component for the `img` React element.
 img
   :: forall s t e1 e2
-   . Array (Options Properties) -> P.PComponent s t e1 e2 ReactElement
+   . Array (Options (Properties t e2)) -> P.PComponent s t e1 e2 ReactElement
 img props = createElement' "img" props [ ]
 
 -- | A property-less constructor for `img`.
@@ -1020,7 +1020,7 @@ img' = img mempty
 -- | Creates a Proact component for the `input` React element.
 input
   :: forall s t e1 e2
-   . Array (Options Properties) -> P.PComponent s t e1 e2 ReactElement
+   . Array (Options (Properties t e2)) -> P.PComponent s t e1 e2 ReactElement
 input props = createElement' "input" props [ ]
 
 -- | A property-less constructor for `input`.
@@ -1030,7 +1030,7 @@ input' = input mempty
 -- | Creates a Proact component for the `ins` React element.
 ins
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 ins = createElement' "ins"
@@ -1045,7 +1045,7 @@ ins' = ins mempty
 -- | Creates a Proact component for the `kbd` React element.
 kbd
   :: forall s t e1 e2
-   .  Array (Options Properties)
+   .  Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 kbd = createElement' "kbd"
@@ -1060,7 +1060,7 @@ kbd' = kbd mempty
 -- | Creates a Proact component for the `keygen` React element.
 keygen
   :: forall s t e1 e2
-   . Array (Options Properties) -> P.PComponent s t e1 e2 ReactElement
+   . Array (Options (Properties t e2)) -> P.PComponent s t e1 e2 ReactElement
 keygen props = createElement' "keygen" props [ ]
 
 -- | A property-less constructor for `keygen`.
@@ -1070,7 +1070,7 @@ keygen' = keygen mempty
 -- | Creates a Proact component for the `label` React element.
 label
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 label = createElement' "label"
@@ -1085,7 +1085,7 @@ label' = label mempty
 -- | Creates a Proact component for the `legend` React element.
 legend
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 legend = createElement' "legend"
@@ -1100,7 +1100,7 @@ legend' = legend mempty
 -- | Creates a Proact component for the `li` React element.
 li
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 li = createElement' "li"
@@ -1115,7 +1115,7 @@ li' = li mempty
 -- | Creates a Proact component for the `link` React element.
 link
   :: forall s t e1 e2
-   . Array (Options Properties) -> P.PComponent s t e1 e2 ReactElement
+   . Array (Options (Properties t e2)) -> P.PComponent s t e1 e2 ReactElement
 link props = createElement' "link" props [ ]
 
 -- | A property-less constructor for `link`.
@@ -1125,7 +1125,7 @@ link' = link mempty
 -- | Creates a Proact component for the `main` React element.
 main
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 main = createElement' "main"
@@ -1140,7 +1140,7 @@ main' = main mempty
 -- | Creates a Proact component for the `map` React element.
 map
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 map = createElement' "map"
@@ -1155,7 +1155,7 @@ map' = map mempty
 -- | Creates a Proact component for the `mark` React element.
 mark
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 mark = createElement' "mark"
@@ -1170,7 +1170,7 @@ mark' = mark mempty
 -- | Creates a Proact component for the `menu` React element.
 menu
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 menu = createElement' "menu"
@@ -1185,7 +1185,7 @@ menu' = menu mempty
 -- | Creates a Proact component for the `menuitem` React element.
 menuitem
   :: forall s t e1 e2
-   . Array (Options Properties) -> P.PComponent s t e1 e2 ReactElement
+   . Array (Options (Properties t e2)) -> P.PComponent s t e1 e2 ReactElement
 menuitem props = createElement' "menuitem" props [ ]
 
 -- | A property-less constructor for `menuitem`.
@@ -1195,7 +1195,7 @@ menuitem' = menuitem mempty
 -- | Creates a Proact component for the `meta` React element.
 meta
   :: forall s t e1 e2
-   . Array (Options Properties) -> P.PComponent s t e1 e2 ReactElement
+   . Array (Options (Properties t e2)) -> P.PComponent s t e1 e2 ReactElement
 meta props = createElement' "meta" props [ ]
 
 -- | A property-less constructor for `meta`.
@@ -1205,7 +1205,7 @@ meta' = meta mempty
 -- | Creates a Proact component for the `meter` React element.
 meter
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 meter = createElement' "meter"
@@ -1220,7 +1220,7 @@ meter' = meter mempty
 -- | Creates a Proact component for the `nav` React element.
 nav
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 nav = createElement' "nav"
@@ -1235,7 +1235,7 @@ nav' = nav mempty
 -- | Creates a Proact component for the `noscript` React element.
 noscript
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 noscript = createElement' "noscript"
@@ -1250,7 +1250,7 @@ noscript' = noscript mempty
 -- | Creates a Proact component for the `object` React element.
 object
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 object = createElement' "object"
@@ -1265,7 +1265,7 @@ object' = object mempty
 -- | Creates a Proact component for the `ol` React element.
 ol
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 ol = createElement' "ol"
@@ -1280,7 +1280,7 @@ ol' = ol mempty
 -- | Creates a Proact component for the `optgroup` React element.
 optgroup
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 optgroup = createElement' "optgroup"
@@ -1295,7 +1295,7 @@ optgroup' = optgroup mempty
 -- | Creates a Proact component for the `option` React element.
 option
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 option = createElement' "option"
@@ -1310,7 +1310,7 @@ option' = option mempty
 -- | Creates a Proact component for the `output` React element.
 output
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 output = createElement' "output"
@@ -1325,7 +1325,7 @@ output' = output mempty
 -- | Creates a Proact component for the `p` React element.
 p
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 p = createElement' "p"
@@ -1340,7 +1340,7 @@ p' = p mempty
 -- | Creates a Proact component for the `param` React element.
 param
   :: forall s t e1 e2
-   . Array (Options Properties) -> P.PComponent s t e1 e2 ReactElement
+   . Array (Options (Properties t e2)) -> P.PComponent s t e1 e2 ReactElement
 param props = createElement' "param" props [ ]
 
 -- | A property-less constructor for `param`.
@@ -1350,7 +1350,7 @@ param' = param mempty
 -- | Creates a Proact component for the `picture` React element.
 picture
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 picture = createElement' "picture"
@@ -1365,7 +1365,7 @@ picture' = picture mempty
 -- | Creates a Proact component for the `pre` React element.
 pre
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 pre = createElement' "pre"
@@ -1380,7 +1380,7 @@ pre' = pre mempty
 -- | Creates a Proact component for the `progress` React element.
 progress
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 progress = createElement' "progress"
@@ -1395,7 +1395,7 @@ progress' = progress mempty
 -- | Creates a Proact component for the `q` React element.
 q
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 q = createElement' "q"
@@ -1410,7 +1410,7 @@ q' = q mempty
 -- | Creates a Proact component for the `rp` React element.
 rp
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 rp = createElement' "rp"
@@ -1425,7 +1425,7 @@ rp' = rp mempty
 -- | Creates a Proact component for the `rt` React element.
 rt
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 rt = createElement' "rt"
@@ -1440,7 +1440,7 @@ rt' = rt mempty
 -- | Creates a Proact component for the `ruby` React element.
 ruby
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 ruby = createElement' "ruby"
@@ -1455,7 +1455,7 @@ ruby' = ruby mempty
 -- | Creates a Proact component for the `s` React element.
 s
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 s = createElement' "s"
@@ -1470,7 +1470,7 @@ s' = s mempty
 -- | Creates a Proact component for the `samp` React element.
 samp
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 samp = createElement' "samp"
@@ -1485,7 +1485,7 @@ samp' = samp mempty
 -- | Creates a Proact component for the `script` React element.
 script
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 script = createElement' "script"
@@ -1500,7 +1500,7 @@ script' = script mempty
 -- | Creates a Proact component for the `section` React element.
 section
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 section = createElement' "section"
@@ -1515,7 +1515,7 @@ section' = section mempty
 -- | Creates a Proact component for the `select` React element.
 select
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 select = createElement' "select"
@@ -1530,7 +1530,7 @@ select' = select mempty
 -- | Creates a Proact component for the `small` React element.
 small
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 small = createElement' "small"
@@ -1545,7 +1545,7 @@ small' = small mempty
 -- | Creates a Proact component for the `source` React element.
 source
   :: forall s t e1 e2
-   . Array (Options Properties) -> P.PComponent s t e1 e2 ReactElement
+   . Array (Options (Properties t e2)) -> P.PComponent s t e1 e2 ReactElement
 source props = createElement' "source" props [ ]
 
 -- | A property-less constructor for `source`.
@@ -1555,7 +1555,7 @@ source' = source mempty
 -- | Creates a Proact component for the `span` React element.
 span
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 span = createElement' "span"
@@ -1570,7 +1570,7 @@ span' = span mempty
 -- | Creates a Proact component for the `strong` React element.
 strong
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 strong = createElement' "strong"
@@ -1585,7 +1585,7 @@ strong' = strong mempty
 -- | Creates a Proact component for the `style` React element.
 style
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 style = createElement' "style"
@@ -1600,7 +1600,7 @@ style' = style mempty
 -- | Creates a Proact component for the `sub` React element.
 sub
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 sub = createElement' "sub"
@@ -1615,7 +1615,7 @@ sub' = sub mempty
 -- | Creates a Proact component for the `summary` React element.
 summary
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 summary = createElement' "summary"
@@ -1630,7 +1630,7 @@ summary' = summary mempty
 -- | Creates a Proact component for the `sup` React element.
 sup
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 sup = createElement' "sup"
@@ -1645,7 +1645,7 @@ sup' = sup mempty
 -- | Creates a Proact component for the `table` React element.
 table
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 table = createElement' "table"
@@ -1660,7 +1660,7 @@ table' = table mempty
 -- | Creates a Proact component for the `tbody` React element.
 tbody
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 tbody = createElement' "tbody"
@@ -1675,7 +1675,7 @@ tbody' = tbody mempty
 -- | Creates a Proact component for the `td` React element.
 td
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 td = createElement' "td"
@@ -1690,7 +1690,7 @@ td' = td mempty
 -- | Creates a Proact component for the `textarea` React element.
 textarea
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 textarea = createElement' "textarea"
@@ -1705,7 +1705,7 @@ textarea' = textarea mempty
 -- | Creates a Proact component for the `tfoot` React element.
 tfoot
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 tfoot = createElement' "tfoot"
@@ -1720,7 +1720,7 @@ tfoot' = tfoot mempty
 -- | Creates a Proact component for the `th` React element.
 th
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 th = createElement' "th"
@@ -1735,7 +1735,7 @@ th' = th mempty
 -- | Creates a Proact component for the `thead` React element.
 thead
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 thead = createElement' "thead"
@@ -1750,7 +1750,7 @@ thead' = thead mempty
 -- | Creates a Proact component for the `time` React element.
 time
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 time = createElement' "time"
@@ -1765,7 +1765,7 @@ time' = time mempty
 -- | Creates a Proact component for the `title` React element.
 title
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 title = createElement' "title"
@@ -1780,7 +1780,7 @@ title' = title mempty
 -- | Creates a Proact component for the `tr` React element.
 tr
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 tr = createElement' "tr"
@@ -1795,7 +1795,7 @@ tr' = tr mempty
 -- | Creates a Proact component for the `track` React element.
 track
   :: forall s t e1 e2
-   . Array (Options Properties) -> P.PComponent s t e1 e2 ReactElement
+   . Array (Options (Properties t e2)) -> P.PComponent s t e1 e2 ReactElement
 track props = createElement' "track" props [ ]
 
 -- | A property-less constructor for `track`.
@@ -1805,7 +1805,7 @@ track' = track mempty
 -- | Creates a Proact component for the `u` React element.
 u
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 u = createElement' "u"
@@ -1820,7 +1820,7 @@ u' = u mempty
 -- | Creates a Proact component for the `ul` React element.
 ul
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 ul = createElement' "ul"
@@ -1835,7 +1835,7 @@ ul' = ul mempty
 -- | Creates a Proact component for the `var` React element.
 var
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 var = createElement' "var"
@@ -1850,7 +1850,7 @@ var' = var mempty
 -- | Creates a Proact component for the `video` React element.
 video
   :: forall s t e1 e2
-   . Array (Options Properties)
+   . Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 video = createElement' "video"
@@ -1865,7 +1865,7 @@ video' = video mempty
 -- | Creates a Proact component for the `wbr` React element.
 wbr
   :: forall s t e1 e2
-   . Array (Options Properties) -> P.PComponent s t e1 e2 ReactElement
+   . Array (Options (Properties t e2)) -> P.PComponent s t e1 e2 ReactElement
 wbr props = createElement' "wbr" props [ ]
 
 -- | A property-less constructor for `wbr`.
@@ -1889,7 +1889,7 @@ foreign import _fragment :: forall p . ReactClass p
 createElement'
   :: forall s t e1 e2
    . String
-  -> Array (Options Properties)
+  -> Array (Options (Properties t e2))
   -> Array (P.PComponent s t e1 e2 ReactElement)
   -> P.PComponent s t e1 e2 ReactElement
 createElement' class_ props children =

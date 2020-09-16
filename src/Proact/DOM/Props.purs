@@ -10,11 +10,23 @@ import CSS.Render (collect)
 import CSS.Stylesheet (CSS, Rule(..), runS)
 import Data.Array (mapMaybe, concatMap, singleton)
 import Data.Foldable (foldMap)
+import Data.Function.Uncurried
+  ( mkFn1
+  , mkFn2
+  , mkFn3
+  , mkFn4
+  , mkFn5
+  , mkFn6
+  , mkFn7
+  , mkFn8
+  , mkFn9
+  , mkFn10
+  )
 import Data.Functor.Contravariant (cmap)
 import Data.Maybe(Maybe(..))
 import Data.Options (Option, opt)
 import Data.Tuple (Tuple(..))
-import Prelude (Unit, ($), bind, pure)
+import Prelude (($), (<<<), Unit, bind, pure)
 import Proact (EventHandler)
 import React.SyntheticEvent
   ( SyntheticEvent
@@ -32,10 +44,130 @@ import React.SyntheticEvent
   )
 
 -- | Represents the properties of a React Element.
-data Properties
+data Properties s (e :: # Type)
+
+-- | Builds an option from an Event Handler that requires one argument.
+mkEventOpt
+  :: forall arg s e
+   . String -> Option (Properties s e) (arg -> EventHandler s e Unit)
+mkEventOpt = cmap mkFn1 <<< opt
+
+-- | Builds an option from an Event Handler that requires two arguments.
+mkEventOpt2
+  :: forall arg1 arg2 s e
+   . String -> Option (Properties s e) (arg1 -> arg2 -> EventHandler s e Unit)
+mkEventOpt2 = cmap mkFn2 <<< opt
+
+-- | Builds an option from an Event Handler that requires three arguments.
+mkEventOpt3
+  :: forall arg1 arg2 arg3 s e
+   . String
+  -> Option (Properties s e) (arg1 -> arg2 -> arg3 -> EventHandler s e Unit)
+mkEventOpt3 = cmap mkFn3 <<< opt
+
+-- | Builds an option from an Event Handler that requires four arguments.
+mkEventOpt4
+  :: forall arg1 arg2 arg3 arg4 s e
+   . String
+  -> Option
+      (Properties s e)
+      (arg1 -> arg2 -> arg3 -> arg4 -> EventHandler s e Unit)
+mkEventOpt4 = cmap mkFn4 <<< opt
+
+-- | Builds an option from an Event Handler that requires five arguments.
+mkEventOpt5
+  :: forall arg1 arg2 arg3 arg4 arg5 s e
+   . String
+  -> Option
+      (Properties s e)
+      (arg1 -> arg2 -> arg3 -> arg4 -> arg5 -> EventHandler s e Unit)
+mkEventOpt5 = cmap mkFn5 <<< opt
+
+-- | Builds an option from an Event Handler that requires six arguments.
+mkEventOpt6
+  :: forall arg1 arg2 arg3 arg4 arg5 arg6 s e
+   . String
+  -> Option
+      (Properties s e)
+      (arg1 -> arg2 -> arg3 -> arg4 -> arg5 -> arg6 -> EventHandler s e Unit)
+mkEventOpt6 = cmap mkFn6 <<< opt
+
+-- | Builds an option from an Event Handler that requires seven arguments.
+mkEventOpt7
+  :: forall arg1 arg2 arg3 arg4 arg5 arg6 arg7 s e
+   . String
+  -> Option
+      (Properties s e)
+       ( arg1
+      -> arg2
+      -> arg3
+      -> arg4
+      -> arg5
+      -> arg6
+      -> arg7
+      -> EventHandler s e Unit
+       )
+mkEventOpt7 = cmap mkFn7 <<< opt
+
+-- | Builds an option from an Event Handler that requires eight arguments.
+mkEventOpt8
+  :: forall arg1 arg2 arg3 arg4 arg5 arg6 arg7 arg8 s e
+   . String
+  -> Option
+      (Properties s e)
+       ( arg1
+      -> arg2
+      -> arg3
+      -> arg4
+      -> arg5
+      -> arg6
+      -> arg7
+      -> arg8
+      -> EventHandler s e Unit
+       )
+mkEventOpt8 = cmap mkFn8 <<< opt
+
+-- | Builds an option from an Event Handler that requires nine arguments.
+mkEventOpt9
+  :: forall arg1 arg2 arg3 arg4 arg5 arg6 arg7 arg8 arg9 s e
+   . String
+  -> Option
+      (Properties s e)
+       ( arg1
+      -> arg2
+      -> arg3
+      -> arg4
+      -> arg5
+      -> arg6
+      -> arg7
+      -> arg8
+      -> arg9
+      -> EventHandler s e Unit
+       )
+mkEventOpt9 = cmap mkFn9 <<< opt
+
+-- | Builds an option from an Event Handler that requires ten arguments.
+mkEventOpt10
+  :: forall arg1 arg2 arg3 arg4 arg5 arg6 arg7 arg8 arg9 arg10 s e
+   . String
+  -> Option
+      (Properties s e)
+       ( arg1
+      -> arg2
+      -> arg3
+      -> arg4
+      -> arg5
+      -> arg6
+      -> arg7
+      -> arg8
+      -> arg9
+      -> arg10
+      -> EventHandler s e Unit
+       )
+mkEventOpt10 = cmap mkFn10 <<< opt
 
 -- | Creates an option for the `style` property.
-style :: Option Properties CSS
+style :: forall s e . Option (Properties s e) CSS
 style = cmap renderInline $ opt "_style"
   where
   prop (Property k v) = Just $ Tuple k v
@@ -49,587 +181,587 @@ style = cmap renderInline $ opt "_style"
     pure [ k, v ]
 
 -- | Creates an option for the `accept` property.
-accept :: Option Properties String
+accept :: forall s e . Option (Properties s e) String
 accept = opt "accept"
 
 -- | Creates an option for the `acceptCharset` property.
-acceptCharset :: Option Properties String
+acceptCharset :: forall s e . Option (Properties s e) String
 acceptCharset = opt "acceptCharset"
 
 -- | Creates an option for the `accessKey` property.
-accessKey :: Option Properties String
+accessKey :: forall s e . Option (Properties s e) String
 accessKey = opt "accessKey"
 
 -- | Creates an option for the `action` property.
-action :: Option Properties String
+action :: forall s e . Option (Properties s e) String
 action = opt "action"
 
 -- | Creates an option for the `allowFullScreen` property.
-allowFullScreen :: Option Properties Boolean
+allowFullScreen :: forall s e . Option (Properties s e) Boolean
 allowFullScreen = opt "allowFullScreen"
 
 -- | Creates an option for the `allowTransparency` property.
-allowTransparency :: Option Properties Boolean
+allowTransparency :: forall s e . Option (Properties s e) Boolean
 allowTransparency = opt "allowTransparency"
 
 -- | Creates an option for the `alt` property.
-alt :: Option Properties String
+alt :: forall s e . Option (Properties s e) String
 alt = opt "alt"
 
 -- | Creates an option for the `async` property.
-async :: Option Properties Boolean
+async :: forall s e . Option (Properties s e) Boolean
 async = opt "async"
 
 -- | Creates an option for the `autoComplete` property.
-autoComplete :: Option Properties String
+autoComplete :: forall s e . Option (Properties s e) String
 autoComplete = opt "autoComplete"
 
 -- | Creates an option for the `autoFocus` property.
-autoFocus :: Option Properties Boolean
+autoFocus :: forall s e . Option (Properties s e) Boolean
 autoFocus = opt "autoFocus"
 
 -- | Creates an option for the `autoPlay` property.
-autoPlay :: Option Properties Boolean
+autoPlay :: forall s e . Option (Properties s e) Boolean
 autoPlay = opt "autoPlay"
 
 -- | Creates an option for the `capture` property.
-capture :: Option Properties Boolean
+capture :: forall s e . Option (Properties s e) Boolean
 capture = opt "capture"
 
 -- | Creates an option for the `cellPadding` property.
-cellPadding :: Option Properties String
+cellPadding :: forall s e . Option (Properties s e) String
 cellPadding = opt "cellPadding"
 
 -- | Creates an option for the `cellSpacing` property.
-cellSpacing :: Option Properties String
+cellSpacing :: forall s e . Option (Properties s e) String
 cellSpacing = opt "cellSpacing"
 
 -- | Creates an option for the `charSet` property.
-charSet :: Option Properties String
+charSet :: forall s e . Option (Properties s e) String
 charSet = opt "charSet"
 
 -- | Creates an option for the `challenge` property.
-challenge :: Option Properties String
+challenge :: forall s e . Option (Properties s e) String
 challenge = opt "checked"
 
 -- | Creates an option for the `checked` property.
-checked :: Option Properties Boolean
+checked :: forall s e . Option (Properties s e) Boolean
 checked = opt "checked"
 
 -- | Creates an option for the `cite` property.
-cite :: Option Properties String
+cite :: forall s e . Option (Properties s e) String
 cite = opt "cite"
 
 -- | Creates an option for the `classID` property.
-classID :: Option Properties String
+classID :: forall s e . Option (Properties s e) String
 classID = opt "classID"
 
 -- | Creates an option for the `className` property.
-className :: Option Properties String
+className :: forall s e . Option (Properties s e) String
 className = opt "className"
 
 -- | Creates an option for the `cols` property.
-cols :: Option Properties Int
+cols :: forall s e . Option (Properties s e) Int
 cols = opt "cols"
 
 -- | Creates an option for the `colSpan` property.
-colSpan :: Option Properties Int
+colSpan :: forall s e . Option (Properties s e) Int
 colSpan = opt "colSpan"
 
 -- | Creates an option for the `content` property.
-content :: Option Properties String
+content :: forall s e . Option (Properties s e) String
 content = opt "content"
 
 -- | Creates an option for the `contentEditable` property.
-contentEditable :: Option Properties Boolean
+contentEditable :: forall s e . Option (Properties s e) Boolean
 contentEditable = opt "contentEditable"
 
 -- | Creates an option for the `contextMenu` property.
-contextMenu :: Option Properties String
+contextMenu :: forall s e . Option (Properties s e) String
 contextMenu = opt "contextMenu"
 
 -- | Creates an option for the `controls` property.
-controls :: Option Properties Boolean
+controls :: forall s e . Option (Properties s e) Boolean
 controls = opt "controls"
 
 -- | Creates an option for the `coords` property.
-coords :: Option Properties String
+coords :: forall s e . Option (Properties s e) String
 coords = opt "coords"
 
 -- | Creates an option for the `crossOrigin` property.
-crossOrigin :: Option Properties String
+crossOrigin :: forall s e . Option (Properties s e) String
 crossOrigin = opt "crossOrigin"
 
 -- | Creates an option for the `dateTime` property.
-dateTime :: Option Properties String
+dateTime :: forall s e . Option (Properties s e) String
 dateTime = opt "dateTime"
 
 -- | Creates an option for the `default` property.
-default :: Option Properties Boolean
+default :: forall s e . Option (Properties s e) Boolean
 default = opt "default"
 
 -- | Creates an option for the `defaultChecked` property.
-defaultChecked :: Option Properties Boolean
+defaultChecked :: forall s e . Option (Properties s e) Boolean
 defaultChecked = opt "defaultChecked"
 
 -- | Creates an option for the `defaultValue` property.
-defaultValue :: Option Properties String
+defaultValue :: forall s e . Option (Properties s e) String
 defaultValue = opt "defaultValue"
 
 -- | Creates an option for the `defer` property.
-defer :: Option Properties Boolean
+defer :: forall s e . Option (Properties s e) Boolean
 defer = opt "defer"
 
 -- | Creates an option for the `dir` property.
-dir :: Option Properties String
+dir :: forall s e . Option (Properties s e) String
 dir = opt "dir"
 
 -- | Creates an option for the `disabled` property.
-disabled :: Option Properties Boolean
+disabled :: forall s e . Option (Properties s e) Boolean
 disabled = opt "disabled"
 
 -- | Creates an option for the `download` property.
-download :: Option Properties String
+download :: forall s e . Option (Properties s e) String
 download = opt "download"
 
 -- | Creates an option for the `draggable` property.
-draggable :: Option Properties Boolean
+draggable :: forall s e . Option (Properties s e) Boolean
 draggable = opt "draggable"
 
 -- | Creates an option for the `encType` property.
-encType :: Option Properties String
+encType :: forall s e . Option (Properties s e) String
 encType = opt "encType"
 
 -- | Creates an option for the `form` property.
-form :: Option Properties String
+form :: forall s e . Option (Properties s e) String
 form = opt "form"
 
 -- | Creates an option for the `formAction` property.
-formAction :: Option Properties String
+formAction :: forall s e . Option (Properties s e) String
 formAction = opt "formAction"
 
 -- | Creates an option for the `formEncType` property.
-formEncType :: Option Properties String
+formEncType :: forall s e . Option (Properties s e) String
 formEncType = opt "formEncType"
 
 -- | Creates an option for the `formMethod` property.
-formMethod :: Option Properties String
+formMethod :: forall s e . Option (Properties s e) String
 formMethod = opt "formMethod"
 
 -- | Creates an option for the `formNoValidate` property.
-formNoValidate :: Option Properties Boolean
+formNoValidate :: forall s e . Option (Properties s e) Boolean
 formNoValidate = opt "formNoValidate"
 
 -- | Creates an option for the `formTarget` property.
-formTarget :: Option Properties String
+formTarget :: forall s e . Option (Properties s e) String
 formTarget = opt "formTarget"
 
 -- | Creates an option for the `frameBorder` property.
-frameBorder :: Option Properties String
+frameBorder :: forall s e . Option (Properties s e) String
 frameBorder = opt "frameBorder"
 
 -- | Creates an option for the `headers` property.
-headers :: Option Properties String
+headers :: forall s e . Option (Properties s e) String
 headers = opt "headers"
 
 -- | Creates an option for the `height` property.
-height :: Option Properties String
+height :: forall s e . Option (Properties s e) String
 height = opt "height"
 
 -- | Creates an option for the `hidden` property.
-hidden :: Option Properties Boolean
+hidden :: forall s e . Option (Properties s e) Boolean
 hidden = opt "hidden"
 
 -- | Creates an option for the `high` property.
-high :: Option Properties String
+high :: forall s e . Option (Properties s e) String
 high = opt "high"
 
 -- | Creates an option for the `href` property.
-href :: Option Properties String
+href :: forall s e . Option (Properties s e) String
 href = opt "href"
 
 -- | Creates an option for the `hrefLang` property.
-hrefLang :: Option Properties String
+hrefLang :: forall s e . Option (Properties s e) String
 hrefLang = opt "hrefLang"
 
 -- | Creates an option for the `htmlFor` property.
-htmlFor :: Option Properties String
+htmlFor :: forall s e . Option (Properties s e) String
 htmlFor = opt "htmlFor"
 
 -- | Creates an option for the `httpEquiv` property.
-httpEquiv :: Option Properties String
+httpEquiv :: forall s e . Option (Properties s e) String
 httpEquiv = opt "httpEquiv"
 
 -- | Creates an option for the `icon` property.
-icon :: Option Properties String
+icon :: forall s e . Option (Properties s e) String
 icon = opt "icon"
 
 -- | Creates an option for the `_id` property.
-_id :: Option Properties String
+_id :: forall s e . Option (Properties s e) String
 _id = opt "id"
 
 -- | Creates an option for the `inputMode` property.
-inputMode :: Option Properties String
+inputMode :: forall s e . Option (Properties s e) String
 inputMode = opt "inputMode"
 
 -- | Creates an option for the `integrity` property.
-integrity :: Option Properties String
+integrity :: forall s e . Option (Properties s e) String
 integrity = opt "integrity"
 
 -- | Creates an option for the `is` property.
-is :: Option Properties String
+is :: forall s e . Option (Properties s e) String
 is = opt "is"
 
 -- | Creates an option for the `key` property.
-key :: Option Properties String
+key :: forall s e . Option (Properties s e) String
 key = opt "key"
 
 -- | Creates an option for the `keyParams` property.
-keyParams :: Option Properties String
+keyParams :: forall s e . Option (Properties s e) String
 keyParams = opt "keyParams"
 
 -- | Creates an option for the `keyType` property.
-keyType :: Option Properties String
+keyType :: forall s e . Option (Properties s e) String
 keyType = opt "keyType"
 
 -- | Creates an option for the `kind` property.
-kind :: Option Properties String
+kind :: forall s e . Option (Properties s e) String
 kind = opt "kind"
 
 -- | Creates an option for the `label` property.
-label :: Option Properties String
+label :: forall s e . Option (Properties s e) String
 label = opt "label"
 
 -- | Creates an option for the `lang` property.
-lang :: Option Properties String
+lang :: forall s e . Option (Properties s e) String
 lang = opt "lang"
 
 -- | Creates an option for the `list` property.
-list :: Option Properties String
+list :: forall s e . Option (Properties s e) String
 list = opt "list"
 
 -- | Creates an option for the `loop` property.
-loop :: Option Properties Boolean
+loop :: forall s e . Option (Properties s e) Boolean
 loop = opt "loop"
 
 -- | Creates an option for the `low` property.
-low :: Option Properties String
+low :: forall s e . Option (Properties s e) String
 low = opt "low"
 
 -- | Creates an option for the `manifest` property.
-manifest :: Option Properties String
+manifest :: forall s e . Option (Properties s e) String
 manifest = opt "manifest"
 
 -- | Creates an option for the `marginHeight` property.
-marginHeight :: Option Properties String
+marginHeight :: forall s e . Option (Properties s e) String
 marginHeight = opt "marginHeight"
 
 -- | Creates an option for the `marginWidth` property.
-marginWidth :: Option Properties String
+marginWidth :: forall s e . Option (Properties s e) String
 marginWidth = opt "marginWidth"
 
 -- | Creates an option for the `max` property.
-max :: Option Properties String
+max :: forall s e . Option (Properties s e) String
 max = opt "max"
 
 -- | Creates an option for the `maxLength` property.
-maxLength :: Option Properties String
+maxLength :: forall s e . Option (Properties s e) String
 maxLength = opt "maxLength"
 
 -- | Creates an option for the `media` property.
-media :: Option Properties String
+media :: forall s e . Option (Properties s e) String
 media = opt "media"
 
 -- | Creates an option for the `mediaGroup` property.
-mediaGroup :: Option Properties String
+mediaGroup :: forall s e . Option (Properties s e) String
 mediaGroup = opt "mediaGroup"
 
 -- | Creates an option for the `method` property.
-method :: Option Properties String
+method :: forall s e . Option (Properties s e) String
 method = opt "method"
 
 -- | Creates an option for the `min` property.
-min :: Option Properties String
+min :: forall s e . Option (Properties s e) String
 min = opt "min"
 
 -- | Creates an option for the `minLength` property.
-minLength :: Option Properties String
+minLength :: forall s e . Option (Properties s e) String
 minLength = opt "minLength"
 
 -- | Creates an option for the `multiple` property.
-multiple :: Option Properties Boolean
+multiple :: forall s e . Option (Properties s e) Boolean
 multiple = opt "multiple"
 
 -- | Creates an option for the `muted` property.
-muted :: Option Properties Boolean
+muted :: forall s e . Option (Properties s e) Boolean
 muted = opt "muted"
 
 -- | Creates an option for the `name` property.
-name :: Option Properties String
+name :: forall s e . Option (Properties s e) String
 name = opt "name"
 
 -- | Creates an option for the `nonce` property.
-nonce :: Option Properties String
+nonce :: forall s e . Option (Properties s e) String
 nonce = opt "nonce"
 
 -- | Creates an option for the `noValidate` property.
-noValidate :: Option Properties Boolean
+noValidate :: forall s e . Option (Properties s e) Boolean
 noValidate = opt "noValidate"
 
 -- | Creates an option for the `open` property.
-open :: Option Properties Boolean
+open :: forall s e . Option (Properties s e) Boolean
 open = opt "open"
 
 -- | Creates an option for the `optimum` property.
-optimum :: Option Properties String
+optimum :: forall s e . Option (Properties s e) String
 optimum = opt "optimum"
 
 -- | Creates an option for the `pattern` property.
-pattern :: Option Properties String
+pattern :: forall s e . Option (Properties s e) String
 pattern = opt "pattern"
 
 -- | Creates an option for the `placeholder` property.
-placeholder :: Option Properties String
+placeholder :: forall s e . Option (Properties s e) String
 placeholder = opt "placeholder"
 
 -- | Creates an option for the `poster` property.
-poster :: Option Properties String
+poster :: forall s e . Option (Properties s e) String
 poster = opt "poster"
 
 -- | Creates an option for the `preload` property.
-preload :: Option Properties String
+preload :: forall s e . Option (Properties s e) String
 preload = opt "preload"
 
 -- | Creates an option for the `profile` property.
-profile :: Option Properties String
+profile :: forall s e . Option (Properties s e) String
 profile = opt "profile"
 
 -- | Creates an option for the `radioGroup` property.
-radioGroup :: Option Properties String
+radioGroup :: forall s e . Option (Properties s e) String
 radioGroup = opt "radioGroup"
 
 -- | Creates an option for the `readOnly` property.
-readOnly :: Option Properties Boolean
+readOnly :: forall s e . Option (Properties s e) Boolean
 readOnly = opt "readOnly"
 
 -- | Creates an option for the `rel` property.
-rel :: Option Properties String
+rel :: forall s e . Option (Properties s e) String
 rel = opt "rel"
 
 -- | Creates an option for the `required` property.
-required :: Option Properties Boolean
+required :: forall s e . Option (Properties s e) Boolean
 required = opt "required"
 
 -- | Creates an option for the `reversed` property.
-reversed :: Option Properties Boolean
+reversed :: forall s e . Option (Properties s e) Boolean
 reversed = opt "reversed"
 
 -- | Creates an option for the `role` property.
-role :: Option Properties String
+role :: forall s e . Option (Properties s e) String
 role = opt "role"
 
 -- | Creates an option for the `rows` property.
-rows :: Option Properties Int
+rows :: forall s e . Option (Properties s e) Int
 rows = opt "rows"
 
 -- | Creates an option for the `rowSpan` property.
-rowSpan :: Option Properties Int
+rowSpan :: forall s e . Option (Properties s e) Int
 rowSpan = opt "rowSpan"
 
 -- | Creates an option for the `sandbox` property.
-sandbox :: Option Properties String
+sandbox :: forall s e . Option (Properties s e) String
 sandbox = opt "sandbox"
 
 -- | Creates an option for the `scope` property.
-scope :: Option Properties String
+scope :: forall s e . Option (Properties s e) String
 scope = opt "scope"
 
 -- | Creates an option for the `scoped` property.
-scoped :: Option Properties Boolean
+scoped :: forall s e . Option (Properties s e) Boolean
 scoped = opt "scoped"
 
 -- | Creates an option for the `scrolling` property.
-scrolling :: Option Properties String
+scrolling :: forall s e . Option (Properties s e) String
 scrolling = opt "scrolling"
 
 -- | Creates an option for the `seamless` property.
-seamless :: Option Properties Boolean
+seamless :: forall s e . Option (Properties s e) Boolean
 seamless = opt "seamless"
 
 -- | Creates an option for the `selected` property.
-selected :: Option Properties Boolean
+selected :: forall s e . Option (Properties s e) Boolean
 selected = opt "selected"
 
 -- | Creates an option for the `shape` property.
-shape :: Option Properties String
+shape :: forall s e . Option (Properties s e) String
 shape = opt "shape"
 
 -- | Creates an option for the `size` property.
-size :: Option Properties Int
+size :: forall s e . Option (Properties s e) Int
 size = opt "size"
 
 -- | Creates an option for the `sizes` property.
-sizes :: Option Properties String
+sizes :: forall s e . Option (Properties s e) String
 sizes = opt "sizes"
 
 -- | Creates an option for the `span` property.
-span :: Option Properties Int
+span :: forall s e . Option (Properties s e) Int
 span = opt "span"
 
 -- | Creates an option for the `spellCheck` property.
-spellCheck :: Option Properties Boolean
+spellCheck :: forall s e . Option (Properties s e) Boolean
 spellCheck = opt "spellCheck"
 
 -- | Creates an option for the `src` property.
-src :: Option Properties String
+src :: forall s e . Option (Properties s e) String
 src = opt "src"
 
 -- | Creates an option for the `srcDoc` property.
-srcDoc :: Option Properties String
+srcDoc :: forall s e . Option (Properties s e) String
 srcDoc = opt "srcDoc"
 
 -- | Creates an option for the `srcLang` property.
-srcLang :: Option Properties String
+srcLang :: forall s e . Option (Properties s e) String
 srcLang = opt "srcLang"
 
 -- | Creates an option for the `srcSet` property.
-srcSet :: Option Properties String
+srcSet :: forall s e . Option (Properties s e) String
 srcSet = opt "srcSet"
 
 -- | Creates an option for the `start` property.
-start :: Option Properties Int
+start :: forall s e . Option (Properties s e) Int
 start = opt "start"
 
 -- | Creates an option for the `step` property.
-step :: Option Properties String
+step :: forall s e . Option (Properties s e) String
 step = opt "step"
 
 -- | Creates an option for the `summary` property.
-summary :: Option Properties String
+summary :: forall s e . Option (Properties s e) String
 summary = opt "summary"
 
 -- | Creates an option for the `tabIndex` property.
-tabIndex :: Option Properties Int
+tabIndex :: forall s e . Option (Properties s e) Int
 tabIndex = opt "tabIndex"
 
 -- | Creates an option for the `target` property.
-target :: Option Properties String
+target :: forall s e . Option (Properties s e) String
 target = opt "target"
 
 -- | Creates an option for the `title` property.
-title :: Option Properties String
+title :: forall s e . Option (Properties s e) String
 title = opt "title"
 
 -- | Creates an option for the `_type` property.
-_type :: Option Properties String
+_type :: forall s e . Option (Properties s e) String
 _type = opt "type"
 
 -- | Creates an option for the `useMap` property.
-useMap :: Option Properties String
+useMap :: forall s e . Option (Properties s e) String
 useMap = opt "useMap"
 
 -- | Creates an option for the `value` property.
-value :: Option Properties String
+value :: forall s e . Option (Properties s e) String
 value = opt "value"
 
 -- | Creates an option for the `valueArray` property.
-valueArray :: Option Properties (Array String)
+valueArray :: forall s e . Option (Properties s e) (Array String)
 valueArray = opt "value"
 
 -- | Creates an option for the `width` property.
-width :: Option Properties String
+width :: forall s e . Option (Properties s e) String
 width = opt "width"
 
 -- | Creates an option for the `wmode` property.
-wmode :: Option Properties String
+wmode :: forall s e . Option (Properties s e) String
 wmode = opt "wmode"
 
 -- | Creates an option for the `wrap` property.
-wrap :: Option Properties String
+wrap :: forall s e . Option (Properties s e) String
 wrap = opt "wrap"
 
 -- RDFa Attributes
 
 -- | Creates an option for the `about` property.
-about :: Option Properties String
+about :: forall s e . Option (Properties s e) String
 about = opt "about"
 
 -- | Creates an option for the `datatype` property.
-datatype :: Option Properties String
+datatype :: forall s e . Option (Properties s e) String
 datatype = opt "datatype"
 
 -- | Creates an option for the `inlist` property.
-inlist :: Option Properties String
+inlist :: forall s e . Option (Properties s e) String
 inlist = opt "inlist"
 
 -- | Creates an option for the `prefix` property.
-prefix :: Option Properties String
+prefix :: forall s e . Option (Properties s e) String
 prefix = opt "prefix"
 
 -- | Creates an option for the `property` property.
-property :: Option Properties String
+property :: forall s e . Option (Properties s e) String
 property = opt "property"
 
 -- | Creates an option for the `resource` property.
-resource :: Option Properties String
+resource :: forall s e . Option (Properties s e) String
 resource = opt "resource"
 
 -- | Creates an option for the `typeof` property.
-typeof :: Option Properties String
+typeof :: forall s e . Option (Properties s e) String
 typeof = opt "typeof"
 
 -- | Creates an option for the `vocab` property.
-vocab :: Option Properties String
+vocab :: forall s e . Option (Properties s e) String
 vocab = opt "vocab"
 
 -- Non-standard Attributes
 
 -- | Creates an option for the `autoCapitalize` property.
-autoCapitalize :: Option Properties String
+autoCapitalize :: forall s e . Option (Properties s e) String
 autoCapitalize = opt "autoCapitalize"
 
 -- | Creates an option for the `autoCorrect` property.
-autoCorrect :: Option Properties String
+autoCorrect :: forall s e . Option (Properties s e) String
 autoCorrect = opt "autoCorrect"
 
 -- | Creates an option for the `autoSave` property.
-autoSave :: Option Properties String
+autoSave :: forall s e . Option (Properties s e) String
 autoSave = opt "autoSave"
 
 -- | Creates an option for the `color` property.
-color :: Option Properties String
+color :: forall s e . Option (Properties s e) String
 color = opt "color"
 
 -- | Creates an option for the `itemProp` property.
-itemProp :: Option Properties String
+itemProp :: forall s e . Option (Properties s e) String
 itemProp = opt "itemProp"
 
 -- | Creates an option for the `itemScope` property.
-itemScope :: Option Properties Boolean
+itemScope :: forall s e . Option (Properties s e) Boolean
 itemScope = opt "itemScope"
 
 -- | Creates an option for the `itemType` property.
-itemType :: Option Properties String
+itemType :: forall s e . Option (Properties s e) String
 itemType = opt "itemType"
 
 -- | Creates an option for the `itemID` property.
-itemID :: Option Properties String
+itemID :: forall s e . Option (Properties s e) String
 itemID = opt "itemID"
 
 -- | Creates an option for the `itemRef` property.
-itemRef :: Option Properties String
+itemRef :: forall s e . Option (Properties s e) String
 itemRef = opt "itemRef"
 
 -- | Creates an option for the `results` property.
-results :: Option Properties Int
+results :: forall s e . Option (Properties s e) Int
 results = opt "results"
 
 -- | Creates an option for the `security` property.
-security :: Option Properties String
+security :: forall s e . Option (Properties s e) String
 security = opt "security"
 
 -- | Creates an option for the `unselectable` property.
-unselectable :: Option Properties Boolean
+unselectable :: forall s e . Option (Properties s e) Boolean
 unselectable = opt "unselectable"
 
 -- Events
@@ -637,775 +769,841 @@ unselectable = opt "unselectable"
 -- | Creates an option for the `onAnimationStart` event.
 onAnimationStart
   :: forall s e
-   . Option Properties (SyntheticAnimationEvent -> EventHandler s e Unit)
-onAnimationStart = opt "_onAnimationStart"
+   . Option (Properties s e) (SyntheticAnimationEvent -> EventHandler s e Unit)
+onAnimationStart = mkEventOpt "_onAnimationStart"
 
 -- | Creates an option for the `onAnimationEnd` event.
 onAnimationEnd
   :: forall s e
-   . Option Properties (SyntheticAnimationEvent -> EventHandler s e Unit)
-onAnimationEnd = opt "_onAnimationEnd"
+   . Option (Properties s e) (SyntheticAnimationEvent -> EventHandler s e Unit)
+onAnimationEnd = mkEventOpt "_onAnimationEnd"
 
 -- | Creates an option for the `onAnimationIteration` event.
 onAnimationIteration
   :: forall s e
-   . Option Properties (SyntheticAnimationEvent -> EventHandler s e Unit)
-onAnimationIteration = opt "_onAnimationIteration"
+   . Option (Properties s e) (SyntheticAnimationEvent -> EventHandler s e Unit)
+onAnimationIteration = mkEventOpt "_onAnimationIteration"
 
 -- | Creates an option for the `onTransitionEnd` event.
 onTransitionEnd
   :: forall s e
-   . Option Properties (SyntheticTransitionEvent -> EventHandler s e Unit)
-onTransitionEnd = opt "_onTransitionEnd"
+   . Option
+      (Properties s e)
+      (SyntheticTransitionEvent -> EventHandler s e Unit)
+onTransitionEnd = mkEventOpt "_onTransitionEnd"
 
 -- | Creates an option for the `onToggle` event.
 onToggle
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onToggle = opt "_onToggle"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onToggle = mkEventOpt "_onToggle"
 
 -- | Creates an option for the `onError` event.
 onError
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onError = opt "_onError"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onError = mkEventOpt "_onError"
 
 -- | Creates an option for the `onLoad` event.
 onLoad
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onLoad = opt "_onLoad"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onLoad = mkEventOpt "_onLoad"
 
 -- | Creates an option for the `onAbort` event.
 onAbort
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onAbort = opt "_onAbort"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onAbort = mkEventOpt "_onAbort"
 
 -- | Creates an option for the `onCanPlay` event.
 onCanPlay
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onCanPlay = opt "_onCanPlay"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onCanPlay = mkEventOpt "_onCanPlay"
 
 -- | Creates an option for the `onCanPlayThrough` event.
 onCanPlayThrough
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onCanPlayThrough = opt "_onCanPlayThrough"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onCanPlayThrough = mkEventOpt "_onCanPlayThrough"
 
 -- | Creates an option for the `onDurationChange` event.
 onDurationChange
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onDurationChange = opt "_onDurationChange"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onDurationChange = mkEventOpt "_onDurationChange"
 
 -- | Creates an option for the `onEmptied` event.
 onEmptied
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onEmptied = opt "_onEmptied"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onEmptied = mkEventOpt "_onEmptied"
 
 -- | Creates an option for the `onEncrypted` event.
 onEncrypted
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onEncrypted = opt "_onEncrypted"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onEncrypted = mkEventOpt "_onEncrypted"
 
 -- | Creates an option for the `onEnded` event.
 onEnded
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onEnded = opt "_onEnded"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onEnded = mkEventOpt "_onEnded"
 
 -- | Creates an option for the `onLoadedData` event.
 onLoadedData
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onLoadedData = opt "_onLoadedData"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onLoadedData = mkEventOpt "_onLoadedData"
 
 -- | Creates an option for the `onLoadedMetadata` event.
 onLoadedMetadata
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onLoadedMetadata = opt "_onLoadedMetadata"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onLoadedMetadata = mkEventOpt "_onLoadedMetadata"
 
 -- | Creates an option for the `onLoadStart` event.
 onLoadStart
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onLoadStart = opt "_onLoadStart"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onLoadStart = mkEventOpt "_onLoadStart"
 
 -- | Creates an option for the `onPause` event.
 onPause
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onPause = opt "_onPause"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onPause = mkEventOpt "_onPause"
 
 -- | Creates an option for the `onPlay` event.
 onPlay
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onPlay = opt "_onPlay"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onPlay = mkEventOpt "_onPlay"
 
 -- | Creates an option for the `onPlaying` event.
 onPlaying
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onPlaying = opt "_onPlaying"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onPlaying = mkEventOpt "_onPlaying"
 
 -- | Creates an option for the `onProgress` event.
 onProgress
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onProgress = opt "_onProgress"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onProgress = mkEventOpt "_onProgress"
 
 -- | Creates an option for the `onRateChange` event.
 onRateChange
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onRateChange = opt "_onRateChange"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onRateChange = mkEventOpt "_onRateChange"
 
 -- | Creates an option for the `onSeeked` event.
 onSeeked
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onSeeked = opt "_onSeeked"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onSeeked = mkEventOpt "_onSeeked"
 
 -- | Creates an option for the `onSeeking` event.
 onSeeking
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onSeeking = opt "_onSeeking"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onSeeking = mkEventOpt "_onSeeking"
 
 -- | Creates an option for the `onStalled` event.
 onStalled
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onStalled = opt "_onStalled"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onStalled = mkEventOpt "_onStalled"
 
 -- | Creates an option for the `onSuspend` event.
 onSuspend
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onSuspend = opt "_onSuspend"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onSuspend = mkEventOpt "_onSuspend"
 
 -- | Creates an option for the `onTimeUpdate` event.
 onTimeUpdate
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onTimeUpdate = opt "_onTimeUpdate"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onTimeUpdate = mkEventOpt "_onTimeUpdate"
 
 -- | Creates an option for the `onVolumeChange` event.
 onVolumeChange
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onVolumeChange = opt "_onVolumeChange"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onVolumeChange = mkEventOpt "_onVolumeChange"
 
 -- | Creates an option for the `onWaiting` event.
 onWaiting
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onWaiting = opt "_onWaiting"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onWaiting = mkEventOpt "_onWaiting"
 
 -- | Creates an option for the `onCopy` event.
 onCopy
   :: forall s e
-   . Option Properties (SyntheticClipboardEvent -> EventHandler s e Unit)
-onCopy = opt "_onCopy"
+   . Option (Properties s e) (SyntheticClipboardEvent -> EventHandler s e Unit)
+onCopy = mkEventOpt "_onCopy"
 
 -- | Creates an option for the `onCut` event.
 onCut
   :: forall s e
-   . Option Properties (SyntheticClipboardEvent -> EventHandler s e Unit)
-onCut = opt "_onCut"
+   . Option (Properties s e) (SyntheticClipboardEvent -> EventHandler s e Unit)
+onCut = mkEventOpt "_onCut"
 
 -- | Creates an option for the `onPaste` event.
 onPaste
   :: forall s e
-   . Option Properties (SyntheticClipboardEvent -> EventHandler s e Unit)
-onPaste = opt "_onPaste"
+   . Option (Properties s e) (SyntheticClipboardEvent -> EventHandler s e Unit)
+onPaste = mkEventOpt "_onPaste"
 
 -- | Creates an option for the `onCompositionEnd` event.
 onCompositionEnd
   :: forall s e
-   . Option Properties (SyntheticCompositionEvent -> EventHandler s e Unit)
-onCompositionEnd = opt "_onCompositionEnd"
+   . Option
+      (Properties s e)
+      (SyntheticCompositionEvent -> EventHandler s e Unit)
+onCompositionEnd = mkEventOpt "_onCompositionEnd"
 
 -- | Creates an option for the `onCompositionStart` event.
 onCompositionStart
   :: forall s e
-   . Option Properties (SyntheticCompositionEvent -> EventHandler s e Unit)
-onCompositionStart = opt "_onCompositionStart"
+   . Option
+      (Properties s e)
+      (SyntheticCompositionEvent -> EventHandler s e Unit)
+onCompositionStart = mkEventOpt "_onCompositionStart"
 
 -- | Creates an option for the `onCompositionUpdate` event.
 onCompositionUpdate
   :: forall s e
-   . Option Properties (SyntheticCompositionEvent -> EventHandler s e Unit)
-onCompositionUpdate = opt "_onCompositionUpdate"
+   . Option
+      (Properties s e)
+      (SyntheticCompositionEvent -> EventHandler s e Unit)
+onCompositionUpdate = mkEventOpt "_onCompositionUpdate"
 
 -- | Creates an option for the `onKeyDown` event.
 onKeyDown
   :: forall s e
-   . Option Properties (SyntheticKeyboardEvent -> EventHandler s e Unit)
-onKeyDown = opt "_onKeyDown"
+   . Option (Properties s e) (SyntheticKeyboardEvent -> EventHandler s e Unit)
+onKeyDown = mkEventOpt "_onKeyDown"
 
 -- | Creates an option for the `onKeyPress` event.
 onKeyPress
   :: forall s e
-   . Option Properties (SyntheticKeyboardEvent -> EventHandler s e Unit)
-onKeyPress = opt "_onKeyPress"
+   . Option (Properties s e) (SyntheticKeyboardEvent -> EventHandler s e Unit)
+onKeyPress = mkEventOpt "_onKeyPress"
 
 -- | Creates an option for the `onKeyUp` event.
 onKeyUp
   :: forall s e
-   . Option Properties (SyntheticKeyboardEvent -> EventHandler s e Unit)
-onKeyUp = opt "_onKeyUp"
+   . Option (Properties s e) (SyntheticKeyboardEvent -> EventHandler s e Unit)
+onKeyUp = mkEventOpt "_onKeyUp"
 
 -- | Creates an option for the `onFocus` event.
 onFocus
   :: forall s e
-   . Option Properties (SyntheticFocusEvent -> EventHandler s e Unit)
-onFocus = opt "_onFocus"
+   . Option (Properties s e) (SyntheticFocusEvent -> EventHandler s e Unit)
+onFocus = mkEventOpt "_onFocus"
 
 -- | Creates an option for the `onBlur` event.
 onBlur
   :: forall s e
-   . Option Properties (SyntheticFocusEvent -> EventHandler s e Unit)
-onBlur = opt "_onBlur"
+   . Option (Properties s e) (SyntheticFocusEvent -> EventHandler s e Unit)
+onBlur = mkEventOpt "_onBlur"
 
 -- | Creates an option for the `onChange` event.
 onChange
   :: forall s e
-   . Option Properties (SyntheticInputEvent -> EventHandler s e Unit)
-onChange = opt "_onChange"
+   . Option (Properties s e) (SyntheticInputEvent -> EventHandler s e Unit)
+onChange = mkEventOpt "_onChange"
 
 -- | Creates an option for the `onInput` event.
 onInput
   :: forall s e
-   . Option Properties (SyntheticInputEvent -> EventHandler s e Unit)
-onInput = opt "_onInput"
+   . Option (Properties s e) (SyntheticInputEvent -> EventHandler s e Unit)
+onInput = mkEventOpt "_onInput"
 
 -- | Creates an option for the `onInvalid` event.
 onInvalid
   :: forall s e
-   . Option Properties (SyntheticInputEvent -> EventHandler s e Unit)
-onInvalid = opt "_onInvalid"
+   . Option (Properties s e) (SyntheticInputEvent -> EventHandler s e Unit)
+onInvalid = mkEventOpt "_onInvalid"
 
 -- | Creates an option for the `onSubmit` event.
 onSubmit
   :: forall s e
-   . Option Properties (SyntheticInputEvent -> EventHandler s e Unit)
-onSubmit = opt "_onSubmit"
+   . Option (Properties s e) (SyntheticInputEvent -> EventHandler s e Unit)
+onSubmit = mkEventOpt "_onSubmit"
 
 -- | Creates an option for the `onClick` event.
 onClick
   :: forall s e
-   . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onClick = opt "_onClick"
+   . Option (Properties s e) (SyntheticMouseEvent -> EventHandler s e Unit)
+onClick = mkEventOpt "_onClick"
 
 -- | Creates an option for the `onContextMenu` event.
 onContextMenu
   :: forall s e
-   . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onContextMenu = opt "_onContextMenu"
+   . Option (Properties s e) (SyntheticMouseEvent -> EventHandler s e Unit)
+onContextMenu = mkEventOpt "_onContextMenu"
 
 -- | Creates an option for the `onDoubleClick` event.
 onDoubleClick
   :: forall s e
-   . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onDoubleClick = opt "_onDoubleClick"
+   . Option (Properties s e) (SyntheticMouseEvent -> EventHandler s e Unit)
+onDoubleClick = mkEventOpt "_onDoubleClick"
 
 -- | Creates an option for the `onDrag` event.
 onDrag
   :: forall s e
-   . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onDrag = opt "_onDrag"
+   . Option (Properties s e) (SyntheticMouseEvent -> EventHandler s e Unit)
+onDrag = mkEventOpt "_onDrag"
 
 -- | Creates an option for the `onDragEnd` event.
 onDragEnd
   :: forall s e
-   . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onDragEnd = opt "_onDragEnd"
+   . Option (Properties s e) (SyntheticMouseEvent -> EventHandler s e Unit)
+onDragEnd = mkEventOpt "_onDragEnd"
 
 -- | Creates an option for the `onDragEnter` event.
 onDragEnter
   :: forall s e
-   . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onDragEnter = opt "_onDragEnter"
+   . Option (Properties s e) (SyntheticMouseEvent -> EventHandler s e Unit)
+onDragEnter = mkEventOpt "_onDragEnter"
 
 -- | Creates an option for the `onDragExit` event.
 onDragExit
   :: forall s e
-   . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onDragExit = opt "_onDragExit"
+   . Option (Properties s e) (SyntheticMouseEvent -> EventHandler s e Unit)
+onDragExit = mkEventOpt "_onDragExit"
 
 -- | Creates an option for the `onDragLeave` event.
 onDragLeave
   :: forall s e
-   . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onDragLeave = opt "_onDragLeave"
+   . Option (Properties s e) (SyntheticMouseEvent -> EventHandler s e Unit)
+onDragLeave = mkEventOpt "_onDragLeave"
 
 -- | Creates an option for the `onDragOver` event.
 onDragOver
   :: forall s e
-   . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onDragOver = opt "_onDragOver"
+   . Option (Properties s e) (SyntheticMouseEvent -> EventHandler s e Unit)
+onDragOver = mkEventOpt "_onDragOver"
 
 -- | Creates an option for the `onDragStart` event.
 onDragStart
   :: forall s e
-   . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onDragStart = opt "_onDragStart"
+   . Option (Properties s e) (SyntheticMouseEvent -> EventHandler s e Unit)
+onDragStart = mkEventOpt "_onDragStart"
 
 -- | Creates an option for the `onDrop` event.
 onDrop
   :: forall s e
-   . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onDrop = opt "_onDrop"
+   . Option (Properties s e) (SyntheticMouseEvent -> EventHandler s e Unit)
+onDrop = mkEventOpt "_onDrop"
 
 -- | Creates an option for the `onMouseDown` event.
 onMouseDown
   :: forall s e
-   . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onMouseDown = opt "_onMouseDown"
+   . Option (Properties s e) (SyntheticMouseEvent -> EventHandler s e Unit)
+onMouseDown = mkEventOpt "_onMouseDown"
 
 -- | Creates an option for the `onMouseEnter` event.
 onMouseEnter
   :: forall s e
-   . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onMouseEnter = opt "_onMouseEnter"
+   . Option (Properties s e) (SyntheticMouseEvent -> EventHandler s e Unit)
+onMouseEnter = mkEventOpt "_onMouseEnter"
 
 -- | Creates an option for the `onMouseLeave` event.
 onMouseLeave
   :: forall s e
-   . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onMouseLeave = opt "_onMouseLeave"
+   . Option (Properties s e) (SyntheticMouseEvent -> EventHandler s e Unit)
+onMouseLeave = mkEventOpt "_onMouseLeave"
 
 -- | Creates an option for the `onMouseMove` event.
 onMouseMove
   :: forall s e
-   . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onMouseMove = opt "_onMouseMove"
+   . Option (Properties s e) (SyntheticMouseEvent -> EventHandler s e Unit)
+onMouseMove = mkEventOpt "_onMouseMove"
 
 -- | Creates an option for the `onMouseOut` event.
 onMouseOut
   :: forall s e
-   . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onMouseOut = opt "_onMouseOut"
+   . Option (Properties s e) (SyntheticMouseEvent -> EventHandler s e Unit)
+onMouseOut = mkEventOpt "_onMouseOut"
 
 -- | Creates an option for the `onMouseOver` event.
 onMouseOver
   :: forall s e
-   . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onMouseOver = opt "_onMouseOver"
+   . Option (Properties s e) (SyntheticMouseEvent -> EventHandler s e Unit)
+onMouseOver = mkEventOpt "_onMouseOver"
 
 -- | Creates an option for the `onMouseUp` event.
 onMouseUp
   :: forall s e
-   . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onMouseUp = opt "_onMouseUp"
+   . Option (Properties s e) (SyntheticMouseEvent -> EventHandler s e Unit)
+onMouseUp = mkEventOpt "_onMouseUp"
 
 -- | Creates an option for the `onSelect` event.
 onSelect
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onSelect = opt "_onSelect"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onSelect = mkEventOpt "_onSelect"
 
 -- | Creates an option for the `onTouchCancel` event.
 onTouchCancel
   :: forall s e
-   . Option Properties (SyntheticTouchEvent -> EventHandler s e Unit)
-onTouchCancel = opt "_onTouchCancel"
+   . Option (Properties s e) (SyntheticTouchEvent -> EventHandler s e Unit)
+onTouchCancel = mkEventOpt "_onTouchCancel"
 
 -- | Creates an option for the `onTouchEnd` event.
 onTouchEnd
   :: forall s e
-   . Option Properties (SyntheticTouchEvent -> EventHandler s e Unit)
-onTouchEnd = opt "_onTouchEnd"
+   . Option (Properties s e) (SyntheticTouchEvent -> EventHandler s e Unit)
+onTouchEnd = mkEventOpt "_onTouchEnd"
 
 -- | Creates an option for the `onTouchMove` event.
 onTouchMove
   :: forall s e
-   . Option Properties (SyntheticTouchEvent -> EventHandler s e Unit)
-onTouchMove = opt "_onTouchMove"
+   . Option (Properties s e) (SyntheticTouchEvent -> EventHandler s e Unit)
+onTouchMove = mkEventOpt "_onTouchMove"
 
 -- | Creates an option for the `onTouchStart` event.
 onTouchStart
   :: forall s e
-   . Option Properties (SyntheticTouchEvent -> EventHandler s e Unit)
-onTouchStart = opt "_onTouchStart"
+   . Option (Properties s e) (SyntheticTouchEvent -> EventHandler s e Unit)
+onTouchStart = mkEventOpt "_onTouchStart"
 
 -- | Creates an option for the `onScroll` event.
 onScroll
   :: forall s e
-   . Option Properties (SyntheticUIEvent -> EventHandler s e Unit)
-onScroll = opt "_onScroll"
+   . Option (Properties s e) (SyntheticUIEvent -> EventHandler s e Unit)
+onScroll = mkEventOpt "_onScroll"
 
 -- | Creates an option for the `onWheel` event.
 onWheel
   :: forall s e
-   . Option Properties (SyntheticWheelEvent -> EventHandler s e Unit)
-onWheel = opt "_onWheel"
+   . Option (Properties s e) (SyntheticWheelEvent -> EventHandler s e Unit)
+onWheel = mkEventOpt "_onWheel"
 
 -- | Creates an option for the `onAnimationStartCapture` event.
 onAnimationStartCapture
   :: forall s e
-   . Option Properties (SyntheticAnimationEvent -> EventHandler s e Unit)
-onAnimationStartCapture = opt "_onAnimationStartCapture"
+   . Option (Properties s e) (SyntheticAnimationEvent -> EventHandler s e Unit)
+onAnimationStartCapture = mkEventOpt "_onAnimationStartCapture"
 
 -- | Creates an option for the `onAnimationEndCapture` event.
 onAnimationEndCapture
   :: forall s e
-   . Option Properties (SyntheticAnimationEvent -> EventHandler s e Unit)
-onAnimationEndCapture = opt "_onAnimationEndCapture"
+   . Option (Properties s e) (SyntheticAnimationEvent -> EventHandler s e Unit)
+onAnimationEndCapture = mkEventOpt "_onAnimationEndCapture"
 
 -- | Creates an option for the `onAnimationIterationCapture` event.
 onAnimationIterationCapture
   :: forall s e
-   . Option Properties (SyntheticAnimationEvent -> EventHandler s e Unit)
-onAnimationIterationCapture = opt "_onAnimationIterationCapture"
+   . Option (Properties s e) (SyntheticAnimationEvent -> EventHandler s e Unit)
+onAnimationIterationCapture = mkEventOpt "_onAnimationIterationCapture"
 
 -- | Creates an option for the `onTransitionEndCapture` event.
 onTransitionEndCapture
   :: forall s e
-   . Option Properties (SyntheticTransitionEvent -> EventHandler s e Unit)
-onTransitionEndCapture = opt "_onTransitionEndCapture"
+   . Option (Properties s e) (SyntheticTransitionEvent -> EventHandler s e Unit)
+onTransitionEndCapture = mkEventOpt "_onTransitionEndCapture"
 
 -- | Creates an option for the `onToggleCapture` event.
 onToggleCapture
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onToggleCapture = opt "_onToggleCapture"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onToggleCapture = mkEventOpt "_onToggleCapture"
 
 -- | Creates an option for the `onErrorCapture` event.
 onErrorCapture
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onErrorCapture = opt "_onErrorCapture"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onErrorCapture = mkEventOpt "_onErrorCapture"
 
 -- | Creates an option for the `onLoadCapture` event.
 onLoadCapture
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onLoadCapture = opt "_onLoadCapture"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onLoadCapture = mkEventOpt "_onLoadCapture"
 
 -- | Creates an option for the `onAbortCapture` event.
 onAbortCapture
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onAbortCapture = opt "_onAbortCapture"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onAbortCapture = mkEventOpt "_onAbortCapture"
 
 -- | Creates an option for the `onCanPlayCapture` event.
 onCanPlayCapture
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onCanPlayCapture = opt "_onCanPlayCapture"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onCanPlayCapture = mkEventOpt "_onCanPlayCapture"
 
 -- | Creates an option for the `onCanPlayThroughCapture` event.
 onCanPlayThroughCapture
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onCanPlayThroughCapture = opt "_onCanPlayThroughCapture"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onCanPlayThroughCapture = mkEventOpt "_onCanPlayThroughCapture"
 
 -- | Creates an option for the `onDurationChangeCapture` event.
 onDurationChangeCapture
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onDurationChangeCapture = opt "_onDurationChangeCapture"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onDurationChangeCapture = mkEventOpt "_onDurationChangeCapture"
 
 -- | Creates an option for the `onEmptiedCapture` event.
 onEmptiedCapture
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onEmptiedCapture = opt "_onEmptiedCapture"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onEmptiedCapture = mkEventOpt "_onEmptiedCapture"
 
 -- | Creates an option for the `onEncryptedCapture` event.
 onEncryptedCapture
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onEncryptedCapture = opt "_onEncryptedCapture"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onEncryptedCapture = mkEventOpt "_onEncryptedCapture"
 
 -- | Creates an option for the `onEndedCapture` event.
 onEndedCapture
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onEndedCapture = opt "_onEndedCapture"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onEndedCapture = mkEventOpt "_onEndedCapture"
 
 -- | Creates an option for the `onLoadedDataCapture` event.
 onLoadedDataCapture
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onLoadedDataCapture = opt "_onLoadedDataCapture"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onLoadedDataCapture = mkEventOpt "_onLoadedDataCapture"
 
 -- | Creates an option for the `onLoadedMetadataCapture` event.
 onLoadedMetadataCapture
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onLoadedMetadataCapture = opt "_onLoadedMetadataCapture"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onLoadedMetadataCapture = mkEventOpt "_onLoadedMetadataCapture"
 
 -- | Creates an option for the `onLoadStartCapture` event.
 onLoadStartCapture
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onLoadStartCapture = opt "_onLoadStartCapture"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onLoadStartCapture = mkEventOpt "_onLoadStartCapture"
 
 -- | Creates an option for the `onPauseCapture` event.
 onPauseCapture
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onPauseCapture = opt "_onPauseCapture"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onPauseCapture = mkEventOpt "_onPauseCapture"
 
 -- | Creates an option for the `onPlayCapture` event.
 onPlayCapture
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onPlayCapture = opt "_onPlayCapture"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onPlayCapture = mkEventOpt "_onPlayCapture"
 
 -- | Creates an option for the `onPlayingCapture` event.
 onPlayingCapture
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onPlayingCapture = opt "_onPlayingCapture"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onPlayingCapture = mkEventOpt "_onPlayingCapture"
 
 -- | Creates an option for the `onProgressCapture` event.
 onProgressCapture
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onProgressCapture = opt "_onProgressCapture"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onProgressCapture = mkEventOpt "_onProgressCapture"
 
 -- | Creates an option for the `onRateChangeCapture` event.
 onRateChangeCapture
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onRateChangeCapture = opt "_onRateChangeCapture"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onRateChangeCapture = mkEventOpt "_onRateChangeCapture"
 
 -- | Creates an option for the `onSeekedCapture` event.
 onSeekedCapture
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onSeekedCapture = opt "_onSeekedCapture"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onSeekedCapture = mkEventOpt "_onSeekedCapture"
 
 -- | Creates an option for the `onSeekingCapture` event.
 onSeekingCapture
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onSeekingCapture = opt "_onSeekingCapture"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onSeekingCapture = mkEventOpt "_onSeekingCapture"
 
 -- | Creates an option for the `onStalledCapture` event.
 onStalledCapture
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onStalledCapture = opt "_onStalledCapture"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onStalledCapture = mkEventOpt "_onStalledCapture"
 
 -- | Creates an option for the `onSuspendCapture` event.
 onSuspendCapture
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onSuspendCapture = opt "_onSuspendCapture"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onSuspendCapture = mkEventOpt "_onSuspendCapture"
 
 -- | Creates an option for the `onTimeUpdateCapture` event.
 onTimeUpdateCapture
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onTimeUpdateCapture = opt "_onTimeUpdateCapture"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onTimeUpdateCapture = mkEventOpt "_onTimeUpdateCapture"
 
 -- | Creates an option for the `onVolumeChangeCapture` event.
 onVolumeChangeCapture
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onVolumeChangeCapture = opt "_onVolumeChangeCapture"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onVolumeChangeCapture = mkEventOpt "_onVolumeChangeCapture"
 
 -- | Creates an option for the `onWaitingCapture` event.
 onWaitingCapture
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onWaitingCapture = opt "_onWaitingCapture"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onWaitingCapture = mkEventOpt "_onWaitingCapture"
 
 -- | Creates an option for the `onCopyCapture` event.
 onCopyCapture
   :: forall s e
-   . Option Properties (SyntheticClipboardEvent -> EventHandler s e Unit)
-onCopyCapture = opt "_onCopyCapture"
+   . Option (Properties s e) (SyntheticClipboardEvent -> EventHandler s e Unit)
+onCopyCapture = mkEventOpt "_onCopyCapture"
 
 -- | Creates an option for the `onCutCapture` event.
 onCutCapture
   :: forall s e
-   . Option Properties (SyntheticClipboardEvent -> EventHandler s e Unit)
-onCutCapture = opt "_onCutCapture"
+   . Option (Properties s e) (SyntheticClipboardEvent -> EventHandler s e Unit)
+onCutCapture = mkEventOpt "_onCutCapture"
 
 -- | Creates an option for the `onPasteCapture` event.
 onPasteCapture
   :: forall s e
-   . Option Properties (SyntheticClipboardEvent -> EventHandler s e Unit)
-onPasteCapture = opt "_onPasteCapture"
+   . Option (Properties s e) (SyntheticClipboardEvent -> EventHandler s e Unit)
+onPasteCapture = mkEventOpt "_onPasteCapture"
 
 -- | Creates an option for the `onCompositionEndCapture` event.
 onCompositionEndCapture
   :: forall s e
-   . Option Properties (SyntheticCompositionEvent -> EventHandler s e Unit)
-onCompositionEndCapture = opt "_onCompositionEndCapture"
+   . Option
+      (Properties s e)
+      (SyntheticCompositionEvent -> EventHandler s e Unit)
+onCompositionEndCapture = mkEventOpt "_onCompositionEndCapture"
 
 -- | Creates an option for the `onCompositionStartCapture` event.
 onCompositionStartCapture
   :: forall s e
-   . Option Properties (SyntheticCompositionEvent -> EventHandler s e Unit)
-onCompositionStartCapture = opt "_onCompositionStartCapture"
+   . Option
+      (Properties s e)
+      (SyntheticCompositionEvent -> EventHandler s e Unit)
+onCompositionStartCapture = mkEventOpt "_onCompositionStartCapture"
 
 -- | Creates an option for the `onCompositionUpdateCapture` event.
 onCompositionUpdateCapture
   :: forall s e
-   . Option Properties (SyntheticCompositionEvent -> EventHandler s e Unit)
-onCompositionUpdateCapture = opt "_onCompositionUpdateCapture"
+   . Option
+      (Properties s e)
+      (SyntheticCompositionEvent -> EventHandler s e Unit)
+onCompositionUpdateCapture = mkEventOpt "_onCompositionUpdateCapture"
 
 -- | Creates an option for the `onKeyDownCapture` event.
 onKeyDownCapture
   :: forall s e
-   . Option Properties (SyntheticKeyboardEvent -> EventHandler s e Unit)
-onKeyDownCapture = opt "_onKeyDownCapture"
+   . Option (Properties s e) (SyntheticKeyboardEvent -> EventHandler s e Unit)
+onKeyDownCapture = mkEventOpt "_onKeyDownCapture"
 
 -- | Creates an option for the `onKeyPressCapture` event.
 onKeyPressCapture
   :: forall s e
-   . Option Properties (SyntheticKeyboardEvent -> EventHandler s e Unit)
-onKeyPressCapture = opt "_onKeyPressCapture"
+   . Option (Properties s e) (SyntheticKeyboardEvent -> EventHandler s e Unit)
+onKeyPressCapture = mkEventOpt "_onKeyPressCapture"
 
 -- | Creates an option for the `onKeyUpCapture` event.
 onKeyUpCapture
   :: forall s e
-   . Option Properties (SyntheticKeyboardEvent -> EventHandler s e Unit)
-onKeyUpCapture = opt "_onKeyUpCapture"
+   . Option (Properties s e) (SyntheticKeyboardEvent -> EventHandler s e Unit)
+onKeyUpCapture = mkEventOpt "_onKeyUpCapture"
 
 -- | Creates an option for the `onFocusCapture` event.
 onFocusCapture
   :: forall s e
-   . Option Properties (SyntheticFocusEvent -> EventHandler s e Unit)
-onFocusCapture = opt "_onFocusCapture"
+   . Option (Properties s e) (SyntheticFocusEvent -> EventHandler s e Unit)
+onFocusCapture = mkEventOpt "_onFocusCapture"
 
 -- | Creates an option for the `onBlurCapture` event.
 onBlurCapture
   :: forall s e
-   . Option Properties (SyntheticFocusEvent -> EventHandler s e Unit)
-onBlurCapture = opt "_onBlurCapture"
+   . Option (Properties s e) (SyntheticFocusEvent -> EventHandler s e Unit)
+onBlurCapture = mkEventOpt "_onBlurCapture"
 
 -- | Creates an option for the `onChangeCapture` event.
 onChangeCapture
   :: forall s e
-   . Option Properties (SyntheticInputEvent -> EventHandler s e Unit)
-onChangeCapture = opt "_onChangeCapture"
+   . Option (Properties s e) (SyntheticInputEvent -> EventHandler s e Unit)
+onChangeCapture = mkEventOpt "_onChangeCapture"
 
 -- | Creates an option for the `onInputCapture` event.
 onInputCapture
   :: forall s e
-   . Option Properties (SyntheticInputEvent -> EventHandler s e Unit)
-onInputCapture = opt "_onInputCapture"
+   . Option (Properties s e) (SyntheticInputEvent -> EventHandler s e Unit)
+onInputCapture = mkEventOpt "_onInputCapture"
 
 -- | Creates an option for the `onInvalidCapture` event.
 onInvalidCapture
   :: forall s e
-   . Option Properties (SyntheticInputEvent -> EventHandler s e Unit)
-onInvalidCapture = opt "_onInvalidCapture"
+   . Option (Properties s e) (SyntheticInputEvent -> EventHandler s e Unit)
+onInvalidCapture = mkEventOpt "_onInvalidCapture"
 
 -- | Creates an option for the `onSubmitCapture` event.
 onSubmitCapture
   :: forall s e
-   . Option Properties (SyntheticInputEvent -> EventHandler s e Unit)
-onSubmitCapture = opt "_onSubmitCapture"
+   . Option (Properties s e) (SyntheticInputEvent -> EventHandler s e Unit)
+onSubmitCapture = mkEventOpt "_onSubmitCapture"
 
 -- | Creates an option for the `onClickCapture` event.
 onClickCapture
   :: forall s e
-   . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onClickCapture = opt "_onClickCapture"
+   . Option (Properties s e) (SyntheticMouseEvent -> EventHandler s e Unit)
+onClickCapture = mkEventOpt "_onClickCapture"
 
 -- | Creates an option for the `onContextMenuCapture` event.
 onContextMenuCapture
   :: forall s e
-   . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onContextMenuCapture = opt "_onContextMenuCapture"
+   . Option (Properties s e) (SyntheticMouseEvent -> EventHandler s e Unit)
+onContextMenuCapture = mkEventOpt "_onContextMenuCapture"
 
 -- | Creates an option for the `onDoubleClickCapture` event.
 onDoubleClickCapture
   :: forall s e
-   . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onDoubleClickCapture = opt "_onDoubleClickCapture"
+   . Option (Properties s e) (SyntheticMouseEvent -> EventHandler s e Unit)
+onDoubleClickCapture = mkEventOpt "_onDoubleClickCapture"
 
 -- | Creates an option for the `onDragCapture` event.
 onDragCapture
   :: forall s e
-   . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onDragCapture = opt "_onDragCapture"
+   . Option (Properties s e) (SyntheticMouseEvent -> EventHandler s e Unit)
+onDragCapture = mkEventOpt "_onDragCapture"
 
 -- | Creates an option for the `onDragEndCapture` event.
 onDragEndCapture
   :: forall s e
-   . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onDragEndCapture = opt "_onDragEndCapture"
+   . Option (Properties s e) (SyntheticMouseEvent -> EventHandler s e Unit)
+onDragEndCapture = mkEventOpt "_onDragEndCapture"
 
 -- | Creates an option for the `onDragEnterCapture` event.
 onDragEnterCapture
   :: forall s e
-   . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onDragEnterCapture = opt "_onDragEnterCapture"
+   . Option (Properties s e) (SyntheticMouseEvent -> EventHandler s e Unit)
+onDragEnterCapture = mkEventOpt "_onDragEnterCapture"
 
 -- | Creates an option for the `onDragExitCapture` event.
 onDragExitCapture
   :: forall s e
-   . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onDragExitCapture = opt "_onDragExitCapture"
+   . Option (Properties s e) (SyntheticMouseEvent -> EventHandler s e Unit)
+onDragExitCapture = mkEventOpt "_onDragExitCapture"
 
 -- | Creates an option for the `onDragLeaveCapture` event.
 onDragLeaveCapture
   :: forall s e
-   . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onDragLeaveCapture = opt "_onDragLeaveCapture"
+   . Option (Properties s e) (SyntheticMouseEvent -> EventHandler s e Unit)
+onDragLeaveCapture = mkEventOpt "_onDragLeaveCapture"
 
 -- | Creates an option for the `onDragOverCapture` event.
 onDragOverCapture
   :: forall s e
-   . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onDragOverCapture = opt "_onDragOverCapture"
+   . Option (Properties s e) (SyntheticMouseEvent -> EventHandler s e Unit)
+onDragOverCapture = mkEventOpt "_onDragOverCapture"
 
 -- | Creates an option for the `onDragStartCapture` event.
 onDragStartCapture
   :: forall s e
-   . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onDragStartCapture = opt "_onDragStartCapture"
+   . Option (Properties s e) (SyntheticMouseEvent -> EventHandler s e Unit)
+onDragStartCapture = mkEventOpt "_onDragStartCapture"
 
 -- | Creates an option for the `onDropCapture` event.
 onDropCapture
   :: forall s e
-   . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onDropCapture = opt "_onDropCapture"
+   . Option (Properties s e) (SyntheticMouseEvent -> EventHandler s e Unit)
+onDropCapture = mkEventOpt "_onDropCapture"
 
 -- | Creates an option for the `onMouseDownCapture` event.
 onMouseDownCapture
   :: forall s e
-   . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onMouseDownCapture = opt "_onMouseDownCapture"
+   . Option (Properties s e) (SyntheticMouseEvent -> EventHandler s e Unit)
+onMouseDownCapture = mkEventOpt "_onMouseDownCapture"
 
 -- | Creates an option for the `onMouseEnterCapture` event.
 onMouseEnterCapture
   :: forall s e
-   . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onMouseEnterCapture = opt "_onMouseEnterCapture"
+   . Option (Properties s e) (SyntheticMouseEvent -> EventHandler s e Unit)
+onMouseEnterCapture = mkEventOpt "_onMouseEnterCapture"
 
 -- | Creates an option for the `onMouseLeaveCapture` event.
 onMouseLeaveCapture
   :: forall s e
-   . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onMouseLeaveCapture = opt "_onMouseLeaveCapture"
+   . Option (Properties s e) (SyntheticMouseEvent -> EventHandler s e Unit)
+onMouseLeaveCapture = mkEventOpt "_onMouseLeaveCapture"
 
 -- | Creates an option for the `onMouseMoveCapture` event.
 onMouseMoveCapture
   :: forall s e
-   . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onMouseMoveCapture = opt "_onMouseMoveCapture"
+   . Option (Properties s e) (SyntheticMouseEvent -> EventHandler s e Unit)
+onMouseMoveCapture = mkEventOpt "_onMouseMoveCapture"
 
 -- | Creates an option for the `onMouseOutCapture` event.
 onMouseOutCapture
   :: forall s e
-   . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onMouseOutCapture = opt "_onMouseOutCapture"
+   . Option (Properties s e) (SyntheticMouseEvent -> EventHandler s e Unit)
+onMouseOutCapture = mkEventOpt "_onMouseOutCapture"
 
 -- | Creates an option for the `onMouseOverCapture` event.
 onMouseOverCapture
   :: forall s e
-   . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onMouseOverCapture = opt "_onMouseOverCapture"
+   . Option (Properties s e) (SyntheticMouseEvent -> EventHandler s e Unit)
+onMouseOverCapture = mkEventOpt "_onMouseOverCapture"
 
 -- | Creates an option for the `onMouseUpCapture` event.
 onMouseUpCapture
   :: forall s e
-   . Option Properties (SyntheticMouseEvent -> EventHandler s e Unit)
-onMouseUpCapture = opt "_onMouseUpCapture"
+   . Option (Properties s e) (SyntheticMouseEvent -> EventHandler s e Unit)
+onMouseUpCapture = mkEventOpt "_onMouseUpCapture"
 
 -- | Creates an option for the `onSelectCapture` event.
 onSelectCapture
-  :: forall s e . Option Properties (SyntheticEvent -> EventHandler s e Unit)
-onSelectCapture = opt "_onSelectCapture"
+  :: forall s e
+   . Option (Properties s e) (SyntheticEvent -> EventHandler s e Unit)
+onSelectCapture = mkEventOpt "_onSelectCapture"
 
 -- | Creates an option for the `onTouchCancelCapture` event.
 onTouchCancelCapture
   :: forall s e
-   . Option Properties (SyntheticTouchEvent -> EventHandler s e Unit)
-onTouchCancelCapture = opt "_onTouchCancelCapture"
+   . Option (Properties s e) (SyntheticTouchEvent -> EventHandler s e Unit)
+onTouchCancelCapture = mkEventOpt "_onTouchCancelCapture"
 
 -- | Creates an option for the `onTouchEndCapture` event.
 onTouchEndCapture
   :: forall s e
-   . Option Properties (SyntheticTouchEvent -> EventHandler s e Unit)
-onTouchEndCapture = opt "_onTouchEndCapture"
+   . Option (Properties s e) (SyntheticTouchEvent -> EventHandler s e Unit)
+onTouchEndCapture = mkEventOpt "_onTouchEndCapture"
 
 -- | Creates an option for the `onTouchMoveCapture` event.
 onTouchMoveCapture
   :: forall s e
-   . Option Properties (SyntheticTouchEvent -> EventHandler s e Unit)
-onTouchMoveCapture = opt "_onTouchMoveCapture"
+   . Option (Properties s e) (SyntheticTouchEvent -> EventHandler s e Unit)
+onTouchMoveCapture = mkEventOpt "_onTouchMoveCapture"
 
 -- | Creates an option for the `onTouchStartCapture` event.
 onTouchStartCapture
   :: forall s e
-   . Option Properties (SyntheticTouchEvent -> EventHandler s e Unit)
-onTouchStartCapture = opt "_onTouchStartCapture"
+   . Option (Properties s e) (SyntheticTouchEvent -> EventHandler s e Unit)
+onTouchStartCapture = mkEventOpt "_onTouchStartCapture"
 
 -- | Creates an option for the `onScrollCapture` event.
 onScrollCapture
   :: forall s e
-   . Option Properties (SyntheticUIEvent -> EventHandler s e Unit)
-onScrollCapture = opt "_onScrollCapture"
+   . Option (Properties s e) (SyntheticUIEvent -> EventHandler s e Unit)
+onScrollCapture = mkEventOpt "_onScrollCapture"
 
 -- | Creates an option for the `onWheelCapture` event.
 onWheelCapture
   :: forall s e
-   . Option Properties (SyntheticWheelEvent -> EventHandler s e Unit)
-onWheelCapture = opt "_onWheelCapture"
+   . Option (Properties s e) (SyntheticWheelEvent -> EventHandler s e Unit)
+onWheelCapture = mkEventOpt "_onWheelCapture"
