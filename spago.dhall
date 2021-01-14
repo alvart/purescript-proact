@@ -1,7 +1,7 @@
 { name = "purescript-proact"
 , dependencies =
-  [ "css"
-  , "effect"
+  [ "effect"
+  , "now"
   , "options"
   , "profunctor-lenses"
   , "react"

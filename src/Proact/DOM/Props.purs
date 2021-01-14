@@ -3,13 +3,18 @@
   Props.purs
 -}
 
+-- | This module provides utilities that create properties for React components.
+-- |
+-- | Event properties are special in that they integrate with Proact's Reactive
+-- | engine behind the scenes. Custom components with custom events can make use
+-- | of this integration by prefixing the event's property name with `_`, e.g.
+-- | `_onEvent`. Keep in mind, however, that the original property name, e.g.
+-- | `onEvent`, from the source component doesn't change, only its `Option`
+-- | name.
+
 module Proact.DOM.Props
 where
 
-import CSS.Render (collect)
-import CSS.Stylesheet (CSS, Rule(..), runS)
-import Data.Array (mapMaybe, concatMap, singleton)
-import Data.Foldable (foldMap)
 import Data.Function.Uncurried
   ( mkFn1
   , mkFn2
@@ -23,10 +28,8 @@ import Data.Function.Uncurried
   , mkFn10
   )
 import Data.Functor.Contravariant (cmap)
-import Data.Maybe(Maybe(..))
 import Data.Options (Option, opt)
-import Data.Tuple (Tuple(..))
-import Prelude (($), (<<<), Unit, bind, pure)
+import Prelude ((<<<), Unit)
 import Proact (EventHandler)
 import React.SyntheticEvent
   ( SyntheticEvent
@@ -165,20 +168,6 @@ mkEventOpt10
       -> EventHandler s e Unit
        )
 mkEventOpt10 = cmap mkFn10 <<< opt
-
--- | Creates an option for the `style` property.
-style :: forall s e . Option (Properties s e) CSS
-style = cmap renderInline $ opt "_style"
-  where
-  prop (Property k v) = Just $ Tuple k v
-  prop _ = Nothing
-
-  renderInline :: CSS -> Array (Array String)
-  renderInline css =
-    do
-    rule <- mapMaybe prop $ runS css
-    Tuple k v <- concatMap (foldMap singleton) $ collect rule
-    pure [ k, v ]
 
 -- | Creates an option for the `accept` property.
 accept :: forall s e . Option (Properties s e) String
@@ -1607,3 +1596,7 @@ onWheelCapture
   :: forall s e
    . Option (Properties s e) (SyntheticWheelEvent -> EventHandler s e Unit)
 onWheelCapture = mkEventOpt "_onWheelCapture"
+
+-- | Creates an option for the `style` property.
+style :: forall r s e . Option (Properties s e) { | r }
+style = opt "style"

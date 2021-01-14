@@ -6,34 +6,48 @@
 "use strict";
 
 var React = require("react");
-var CamelCase = require("camelcase");
+
+var Feed = function () {
+  this.subscribers = [];
+
+  this.subscribe = function (observer) {
+    this.subscribers.push(observer);
+  }.bind(this);
+
+  this.notify = function (a) {
+    for (var observer of this.subscribers) {
+      observer(a)();
+    }
+  }.bind(this);
+};
 
 exports._createElement = function (class_) {
-  return function (disp) {
-    return function (props_) {
+  return function (props_) {
+    return function (children) {
       var props = {};
+      var feedList = [];
       for (var key of Object.keys(props_)) {
-        if (key === "_style") {
-          props.style = {};
-          for (var css of props_[key]) {
-            props.style[CamelCase(css[0])] = css[1];
-          }
-        } else if (key.startsWith("_on")) {
-          props[key.substr(1)] = (function (key_) {
+        if (key.startsWith("_on")) {
+          var feed = new Feed();
+
+          props[key.substr(1)] = function (key_) {
             return function () {
-              disp(props_[key_].apply(null, arguments))();
+              feed.notify(props_[key_].apply(null, arguments));
             };
-          })(key);
+          }(key);
+
+          feedList.push(feed);
         } else {
           props[key] = props_[key];
         }
       }
 
-      return function (children) {
-        return React.createElement.apply(
+      return {
+        element: React.createElement.apply(
           React,
           [class_, props].concat(children)
-        );
+        ),
+        feedList,
       };
     };
   };

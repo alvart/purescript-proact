@@ -1,7 +1,12 @@
 {
   "name": "purescript-proact",
+  "version": "0.1.0",
+  "author": "Jon Alvart",
+  "license": "MIT",
+  "scripts": {
+    "build": "spago build"
+  },
   "dependencies": {
-    "camelcase": "^6.0.0",
     "react": "^16.13.1"
   }
 }

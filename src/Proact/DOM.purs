@@ -3,6 +3,10 @@
   DOM.purs
 -}
 
+-- | This module provides utilities that create React virtual DOM elements,
+-- | specifically, basic HTML components. These elements are compatible with
+-- | <https://pursuit.purescript.org/packages/purescript-react/8.0.0 purescript-react>
+
 module Proact.DOM
   ( createElement
   , fragment
@@ -234,17 +238,18 @@ module Proact.DOM
   )
 where
 
-import Data.Foldable (fold)
 import Data.Options (Options, options)
-import Data.Traversable (sequence)
-import Effect (Effect)
-import Effect.Aff (Fiber)
+import Data.Traversable (fold, sequence)
 import Foreign (Foreign)
-import Prelude (($), (>>=), (<<<), Unit, bind, mempty, pure)
-import Proact (EventHandler, PComponent, dispatcher) as P
+import Prelude (($), (>>=), (<<<), Unit, discard, mempty, pure)
+import Prelude (map) as P
+import Proact (EventHandler, PComponent) as P
 import Proact.DOM.Props (Properties)
+import Proact.Event.Feed (Feed)
+import Proact.Event.Signal (replicate)
 import React (ReactClass, ReactElement)
 import React.DOM (text) as R
+import Run.Writer (tell)
 import Unsafe.Coerce (unsafeCoerce)
 
 -- | Creates a Proact component from a React class, an array of Options and an
@@ -257,11 +262,12 @@ createElement
   -> P.PComponent s t e1 e2 ReactElement
 createElement class_ props children =
   do
-  dispatcher <- P.dispatcher
-  pure $ _createElement class_ dispatcher (options $ fold props) children
+  let reactiveElement = _createElement class_ (options $ fold props) children
+  tell <<< fold $ P.map replicate reactiveElement.feedList
+  pure reactiveElement.element
 
--- | Creates a React fragment from an array of elements. Used in conjunction
--- | with `focus` and `iFocus`.
+-- | Creates a React fragment from an array of elements.
+-- | It is normally used together with `focus` and `iFocus`.
 fragment
   :: forall s t e1 e2
    . P.PComponent s t e1 e2 (Array ReactElement)
@@ -1877,10 +1883,11 @@ wbr' = wbr mempty
 foreign import _createElement
   :: forall p s e
    . ReactClass p
-  -> (P.EventHandler s e Unit -> Effect (Fiber Unit))
   -> Foreign
   -> Array ReactElement
-  -> ReactElement
+  -> { element :: ReactElement
+     , feedList :: Array (Feed (P.EventHandler s e Unit))
+     }
 
 -- The Fragment React class.
 foreign import _fragment :: forall p . ReactClass p
